@@ -11,11 +11,16 @@
 
 \section{iid}
 
-\section{最小方差无偏估计}
+\section{Universal approximation theorem}
+\begin{quotation}
+    Any continuous function can be uniformly approximated by a continuous neural network having only one
+    internal, hidden layer and with an arbitrary continuous sigmoidal nonlinearity.\cite{Cybenko1989}
+\end{quotation}
+\par万能近似定理最初以sigmoidal激活函数来描述，后被证明对于更广泛的激活函数也适用\cite{Leshno1993}，包括ReLU。
 
 \section{Maximum likelihood estimation}
-深度学习来就是用模型$p_{model}(\boldsymbol{x};\boldsymbol{\theta})$来估计数据的真实分布$p_{data}(\boldsymbol{x};\boldsymbol{\theta})$，
-对于一组确定的数据集$X$，在样本已被观察到的情况下，需要找到使得$p_{model}(X; \boldsymbol{\theta})$出现可能性最大的一组参数$\boldsymbol{\theta}$，也就是
+深度学习来就是用模型$p_{model}(\boldsymbol{x};\boldsymbol{\theta})$来估计数据的真实分布$p_{data}(\boldsymbol{x};\boldsymbol{\theta})$，对
+于一组确定的数据集$X$，在样本已被观察到的情况下，需要找到使得$p_{model}(X; \boldsymbol{\theta})$出现可能性最大的一组参数$\boldsymbol{\theta}$，也就是
 最大似然估计:
 \begin{equation}
     \begin{split}
@@ -139,7 +144,8 @@ $\hat p_{data}(\boldsymbol{x})$与模型无关
 \subsection{orthogonal initalization}
 
 \subsection{kaiming initalization}
-Xavier 针对对称激活函数的层权重初始化进行设计，但对于使用ReLu激活函数的层并不适用。\\
+Xavier 针对对称激活函数的层权重初始化进行设计，但对于使用ReLu激活函数的层并不适用\cite{He2015}。
+\par
 对ReLU层来说，$E(\mathbf{x}_l^2) = \frac{1}{2}Var(\mathbf{y}_l)$，因此
 \begin{equation}
     \begin{split}
