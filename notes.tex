@@ -4,6 +4,17 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+
+\geometry{a4paper, left=2.5cm, top=2.5cm, bottom=2cm}
+\geometry{hcentering}
+
+\pagestyle{fancy}
+\cfoot{\thepage}
+
 
 \begin{document}
 \title{深度学习笔记}
@@ -14,11 +25,10 @@
 
 \tableofcontents
 
-\pagestyle{plain}
-
 \input{01_linear_algebra.tex}
 \input{02_statistics.tex}
 \input{03_basic.tex}
+\input{04_skip_connections.tex}
 
 \bibliographystyle{plain}
 \bibliography{references}
