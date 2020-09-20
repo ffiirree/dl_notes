@@ -17,3 +17,7 @@
 
 - [2013] [Visualizing and Understanding Convolutional Networks](https://arxiv.org/abs/1311.2901)
 - [2015] [Understanding Neural Networks Through Deep Visualization](https://arxiv.org/abs/1506.06579)
+
+## Semantic Segmentation
+
+- [2014] FCN - [Fully Convolutional Networks for Semantic Segmentation](https://arxiv.org/abs/1411.4038)

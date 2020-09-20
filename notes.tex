@@ -8,13 +8,16 @@
 \usepackage{float}
 \usepackage{geometry}
 \usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[T1]{fontenc}
+\usepackage{palatino}
 
 \geometry{a4paper, left=2.5cm, top=2.5cm, bottom=2cm}
 \geometry{hcentering}
 
 \pagestyle{fancy}
 \cfoot{\thepage}
-
 
 \begin{document}
 \title{深度学习笔记}
@@ -28,7 +31,10 @@
 \input{01_linear_algebra.tex}
 \input{02_statistics.tex}
 \input{03_basic.tex}
-\input{04_skip_connections.tex}
+\input{04_optimization_algorithms.tex}
+\input{05_models.tex}
+\input{06_skip_connections.tex}
+\input{07_semantic_segmentation.tex}
 
 \bibliographystyle{plain}
 \bibliography{references}
