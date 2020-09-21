@@ -61,6 +61,7 @@
         are all negative, we have a local maximum for the function.
         \item When the eigenvalues of the function's Hession matrix at the zero-gradient position 
         are negative and positive, we have a saddle point for the function.
+        \item 同号且至少有一个为0，不确定
     \end{itemize}
     For high-dimensional problem the likehood that at least some of the eigenvalues are negative
     is quite high. This makes sadlle points are more likely then local minima.\cite{zhang2020dive}
@@ -101,7 +102,7 @@ can help in this case. These methods cannot be applied to deep learning directly
 \subsubsection{Newton's Method}
 当Taylor expansion展开到二阶导数时:
 \begin{equation}
-    f(\mathbf{x} + \epsilon) = f(\mathbf{x}) + \epsilon^\top \nabla f(\mathbf{x}) + \frac{1}{2} \epsilon^\top \nabla\nabla^\top f(\mathbf{x}) \epsilon 
+    f(\mathbf{x} + \epsilon) = f(\mathbf{x}) + \epsilon^\top \nabla f(\mathbf{x}) + \frac{1}{2} \epsilon^\top H_f \epsilon 
     + \mathcal{O}(\|\epsilon\|^3)
 \end{equation}
 we define $H_f := \nabla \nabla ^\top f(\mathbf{x})$ to be the \textit{Hession} of $f$. $H$ is a $d \times  d$ matrix and may be
@@ -114,6 +115,42 @@ ignoring higher order terms we arrive at
 \begin{equation}
    \begin{split}
     \nabla f(\mathbf{x}) + H_f \epsilon = 0 \\
-    \epsilon = -H_f^{-1} \nabla f{\mathbf{x}}
+    \mathbf{\epsilon} = -H_f^{-1} \nabla f(\mathbf{x})
    \end{split}
 \end{equation}
+
+then, $\epsilon = -\eta \nabla f(\mathbf{x})$, we get
+\begin{equation}
+    \begin{split}
+        \mathbf{\eta} = -H_f^{-1}
+    \end{split}
+\end{equation}
+
+For $f(x) = (x-2)(x-4) = x^2 - 6x + 8, f'(x) = 2x - 6, f''(x) = 2$, then
+\begin{equation}
+    \epsilon = -f''(0)^{-1} f'(0) = -\frac{1}{2} \times -6 = 3 
+\end{equation}
+
+\subsubsection{Hessian}
+Hession 矩阵是是对称的，可以表示为一组特征值和一组特征向量的正交基底，在特定方向上$g$上的二阶导数为$g^\top H g$，当$g$为特征向量时，这个二阶导数就是
+对应的特征值。最大特征值确定最大二阶导数，最小特征值确定最小导数。\par
+在$g$方向上的learning rate为
+\begin{equation}
+    \eta_g = \frac{1}{g^\top H_f g}
+\end{equation}
+最差的情况下，$g$与$H$最大的特征值$\lambda_{max}$对应的特征向量对齐，此时的最优步长为$\frac{1}{\lambda_{max}}$，当要最小化的目标函数能用二次函数
+很好近似的情况下，Hession的特征值决定了学习率的量级。
+
+\subsection{Stochastic Gradient Descent}
+\subsubsection{Dynamic Learning rate}
+
+\begin{equation}
+    \begin{aligned}
+        \eta(t) &= \eta_i \text{ if } t_i \leq  t \leq t_{i+1} & & piecewise constant\\
+        \eta(t) &= \eta_0 e^{-\lambda t} & & exponential\\
+        \eta(t) &= \eta_0 (\beta t + 1) ^{-\alpha} && polynomial
+    \end{aligned}
+\end{equation}
+In the case of convex optimization there are a number of proofs which show that this rate is well behaved.
+
+\subsection{Minibatch Stochastic Gradient Descent}
