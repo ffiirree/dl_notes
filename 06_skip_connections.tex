@@ -68,6 +68,19 @@ then we will have:
     \mathbf{x}_{l+1} = \mathbf{x}_l + \mathcal{F}(\hat f(\mathbf{x}_l), \mathcal{W}_l)
 \end{equation}
 
+\section{The Shattered Gradients Problem}
+\begin{quotation}
+    A previously unnoticed difficulty with gradients in deep rectifier networks that orthogonal
+    to vanishing and exploding gradients. The shattering gradients problem is that, as depth increases,
+    \textbf{gradients in standard feedforward networks increasingly resemble white noise}\cite{Balduzzi2017}.
+\end{quotation}
+\begin{itemize}
+    \item Gradients of shallow networks resemble brown noise.
+    \item Gradients of deep networks resemble white noise.
+    \item Training is difficult when gradients behave like white noise.
+    \item Gradients of deep resnets lie in between brown and white noise.
+\end{itemize}
+
 
 \section{恒等映射的意义}
 TODO:

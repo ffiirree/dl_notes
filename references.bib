@@ -89,3 +89,31 @@
   note   = {\url{https://d2l.ai}},
   year   = {2020}
 }
+
+@inproceedings{Balduzzi2017,
+  abstract  = {A long-standing obstacle to progress in deep learning is the problem of vanishing and exploding gradients. Although, the problem has largely been overcome via carefully constructed initializations and batch normalization, architectures incorporating skip-connections such as highway and resnets perform much better than standard feedforward architectures despite wellchosen initialization and batch normalization. In this paper, we identify the shattered gradients problem. Specifically, we show that the correlation between gradients in standard feedforward networks decays exponentially with depth resulting in gradients that resemble white noise whereas, in contrast, the gradients in architectures with skip-connections are far more resistant to shattering, decaying sublinearly. Detailed empirical evidence is presented in support of the analysis, on both fully-connected networks and convnets. Finally, we present a new "looks linear" (LL) initialization that prevents shattering, with preliminary experiments showing the new initialization allows to train very deep networks without the addition of skip-connections.},
+  author    = {Balduzzi, David and Frean, Marcus and Leary, Lennox and Lewis, J. P. and Ma, Kurt Wan Duo and McWilliams, Brian},
+  booktitle = {34th International Conference on Machine Learning, ICML 2017},
+  title     = {{The shattered gradients problem: If resnets are the answer, then what is the question?}},
+  volume    = {1},
+  year      = {2017}
+}
+
+@inproceedings{Ioffe2015,
+  abstract  = {Training Deep Neural Networks is complicated by the fact that the distribution of each layer's inputs changes during training, as the parameters of the previous layers change. This slows down the training by requiring lower learning rates and careful parameter initialization, and makes it notoriously hard to train models with saturating nonlinearities. We refer to this phenomenon as internal covariate shift, and address the problem by normalizing layer inputs. Our method draws its strength from making normalization a part of the model architecture and performing the normalization for each training mini-batch. Batch Normalization allows us to use much higher learning rates and be less careful about initialization, and in some cases eliminates the need for Dropout. Applied to a state-of-the-art image classification model, Batch Normalization achieves the same accuracy with 14 times fewer training steps, and beats the original model by a significant margin. Using an ensemble of batch-normalized networks, we improve upon the best published result on ImageNet classification: reaching 4.82{\%} top-5 test error, exceeding the accuracy of human raters.},
+  author    = {Ioffe, Sergey and Szegedy, Christian},
+  booktitle = {32nd International Conference on Machine Learning, ICML 2015},
+  title     = {{Batch normalization: Accelerating deep network training by reducing internal covariate shift}},
+  volume    = {1},
+  year      = {2015}
+}
+
+@inproceedings{Santurkar2018,
+  abstract  = {Batch Normalization (BatchNorm) is a widely adopted technique that enables faster and more stable training of deep neural networks (DNNs). Despite its pervasiveness, the exact reasons for BatchNorm's effectiveness are still poorly understood. The popular belief is that this effectiveness stems from controlling the change of the layers' input distributions during training to reduce the so-called “internal covariate shift”. In this work, we demonstrate that such distributional stability of layer inputs has little to do with the success of BatchNorm. Instead, we uncover a more fundamental impact of BatchNorm on the training process: it makes the optimization landscape significantly smoother. This smoothness induces a more predictive and stable behavior of the gradients, allowing for faster training.},
+  author    = {Santurkar, Shibani and Tsipras, Dimitris and Ilyas, Andrew and Madry, Aleksander},
+  booktitle = {Advances in Neural Information Processing Systems},
+  issn      = {10495258},
+  title     = {{How does batch normalization help optimization?}},
+  volume    = {2018-December},
+  year      = {2018}
+}
