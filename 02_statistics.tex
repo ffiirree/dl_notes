@@ -1,5 +1,21 @@
 \chapter{Statistics}
 
+\section{Frequentist statistics VS Bayesian statistics}
+\begin{quotation}
+Throughout our subsequent discussions, we viewed $\theta$ as an unknown parameter of the world. 
+This view of the $\theta$ as being constant-valued but unknown is taken in frequentist statistics.
+In the frequentist this view of the world, $\theta$ is not random—it just happens to be unknown—and 
+it's our job to come up with statistical procedures (such as maximum likelihood) to try to estimate 
+this parameter. 
+
+An alternative way to approach our parameter estimation problems is to take 
+the Bayesian view of the world, and think of $\theta$ as being a random variable whose value is 
+unknown. In this approach, we would specify a prior distribution $p(\theta)$ on $\theta$ that 
+expresses our "prior beliefs" about the parameters. Given a training set $S = {(x_i, y_i)}$, 
+make a prediction on a new value of x, we can then compute the posterior distribution on 
+the parameters.(CS229)
+\end{quotation}
+
 \section{期望}
 \begin{itemize}
     \item 若干个随机变量之和的期望等于各变量的期望之和，$E(X_1 + X_2 + ... + X_n) = E(X_1) + E(X_2) + ... + E(X_n)$

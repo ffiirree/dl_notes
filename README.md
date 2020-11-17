@@ -58,3 +58,12 @@
 ## GAN
 
 - [ ] [2014] GAN - [Generative Adversarial Nets](https://arxiv.org/abs/1406.2661)
+- [ ] [2014] CGAN - [Conditional Generative Adversarial Nets](https://arxiv.org/abs/1411.1784)
+- [ ] [2015] DCGAN - [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/abs/1511.06434)
+- [ ] [2016] [Improved Techniques for Training GANs](https://arxiv.org/abs/1606.03498)
+- [ ] [2016] Pix2Pix - [Image-to-Image Translation with Conditional Adversarial Networks](https://arxiv.org/abs/1611.07004)
+- [ ] [2016] [StackGAN: Text to Photo-realistic Image Synthesis with Stacked Generative Adversarial Networks](https://arxiv.org/abs/1612.03242)
+- [ ] [2017] CycleGAN - [Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks](https://arxiv.org/abs/1703.10593)
+- [ ] [2017] [Progressively Growing of GANs](https://arxiv.org/abs/1710.10196)
+- [ ] [2018] BigGAN - [Large Scale GAN Training for High Fidelity Natural Image Synthesis](https://arxiv.org/abs/1809.11096)
+- [ ] [2018] StyleGAN - [A Style-Based Generator Architecture for Generative Adversarial Networks](https://arxiv.org/abs/1812.04948)

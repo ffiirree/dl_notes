@@ -19,25 +19,32 @@
 \par万能近似定理最初以sigmoidal激活函数来描述，后被证明对于更广泛的激活函数也适用\cite{Leshno1993}，包括ReLU。
 
 \section{Maximum likelihood estimation}
+\textbf{Frequentist statistics}
+
+
 深度学习来就是用模型$p_{model}(\boldsymbol{x};\boldsymbol{\theta})$来估计数据的真实分布$p_{data}(\boldsymbol{x};\boldsymbol{\theta})$，对
 于一组确定的数据集$X$，在样本已被观察到的情况下，需要找到使得$p_{model}(X; \boldsymbol{\theta})$出现可能性最大的一组参数$\boldsymbol{\theta}$，也就是
 最大似然估计:
 \begin{equation}
     \begin{split}
-        \boldsymbol{\theta}_{ML} &= \arg \max_\theta p_{model}(X, \boldsymbol{\theta}) \\
+        \hat{\boldsymbol{\theta}}_{MLE} &= \arg \max_\theta p_{model}(X, \boldsymbol{\theta}) \\
         &= \arg \max_{\boldsymbol{\theta}} \prod _{i=1}^m p_{model}(\boldsymbol{x}^i; \boldsymbol{\theta})
     \end{split}
 \end{equation}
 等价于
 \begin{equation}
     \begin{split}
-        \boldsymbol{\theta}_{ML} &= \arg \max_{\boldsymbol{\theta}} \sum_{i=0}^m \log p_{model}(\boldsymbol{x}^i; \boldsymbol{\theta})
+        \hat{\boldsymbol{\theta}}_{MLE} &= \arg \max_{\boldsymbol{\theta}} \sum_{i=0}^m \log p_{model}(\boldsymbol{x}^i; \boldsymbol{\theta}) \\
+        &= \arg \min_{\boldsymbol{\theta}} - \sum_{i=0}^m \log p_{model}(\boldsymbol{x}^i; \boldsymbol{\theta})
     \end{split}
 \end{equation}
+第二行的优化函数也被称为Negative Log Likelihood(NLL)
+
+
 除$m$，等价于
 \begin{equation}
     \begin{split}
-        \boldsymbol{\theta}_{ML} &= \arg \max_{\boldsymbol{\theta}} E _{x \sim \hat p_{data}} \log p_{model}(\boldsymbol{x}^i; \boldsymbol{\theta})
+        \hat{\boldsymbol{\theta}}_{MLE} &= \arg \max_{\boldsymbol{\theta}} E _{x \sim \hat p_{data}} \log p_{model}(\boldsymbol{x}^i; \boldsymbol{\theta})
     \end{split}
 \end{equation}
 
@@ -45,11 +52,63 @@
 KL散度用来衡量两种分布之间的差异，
 \begin{equation}
     \begin{split}
-        D_{KL}(\hat p_{data}|| p_{model}) &= \int_{-\infty}^{+\infty} \hat p_{data}(\boldsymbol{x}) \ln{\frac{\hat p_{data}(\boldsymbol{x})}{p_{model}(\boldsymbol{x})}} \mathrm{d}x
+        D_{KL}(\hat p_{data}|| p_{model}) &= \sum_i \hat p_{data}(x_i) \log{\frac{\hat p_{data}(x_i)}{p_{model}(x_i)}}\\
+        &= \sum_i \hat p_{data}(x_i) \log\hat p_{data}(x_i) - \sum_i \hat p_{data}(x_i) \log p_{model}(x_i)
     \end{split}
 \end{equation}
-$\hat p_{data}(\boldsymbol{x})$与模型无关
+$\hat p_{data}(\boldsymbol{x})$与模型无关，其中
+\begin{equation}
+    \sum_i \hat p_{data}(x_i) \ln\hat p_{data}(x_i)
+\end{equation}
+为常量，则问题转换为
+\begin{equation}
+    \begin{split}
+        \arg \min D_{KL}(\hat p_{data}|| p_{model}) &= \arg \min - \sum_i \hat p_{data}(x_i) \log p_{model}(x_i)\\
+        &= \arg \min - E_x \log p_{model}(\mathbf{x})
+    \end{split}
+\end{equation}
+在本问题中，极大似然估计、最小化KL散度和最小化交叉熵等价。
 
+\subsection{熵、KL散度和交叉熵}
+\begin{itemize}
+    \item 熵:$H(X)=-\sum_i^n p(x_i)\log p(x_i)$，表示不确定程度，越不确定值越大
+    \item KL散度(相对熵): $D_{KL}(p_{\theta}||p_{\hat\theta}) = \sum_i^n p_{\theta}(x_i) \log {p_{\theta}(x_i)} - \sum_i^np_{\theta}(x_i) \log {p_{\hat\theta}(x_i)}$ 
+    \item 交叉熵: $CE(X) = - \sum_i^np_{\theta}(x_i) \log {p_{\hat\theta}(x_i)}$
+\end{itemize}
+从定义里可以看出，当熵为常量时，KL散度和交叉熵等价。
+
+\section{Maximum A Posteriori}
+$p(\boldsymbol{\theta})$先验概率分布，$p(\mathbf{X}|\boldsymbol{\theta})$是似然函数，根据贝叶斯定理，可用以下公式计算后验概率
+\begin{equation}
+    p(\boldsymbol{\theta} | \mathbf{X}) = \frac{p(\boldsymbol{\theta})p(\mathbf{X}|\boldsymbol{\theta})}{p(\mathbf{X})}
+\end{equation}
+模型估计时，估计整个后验概率分布$p(\boldsymbol{\theta} | \mathbf{X})$，如需给出一个模型，通常取后验概率最大的模型。
+\begin{equation}
+    \begin{split}
+        \hat{\boldsymbol{\theta}}_{MAP} &= \arg \max p(\boldsymbol{\theta} | \mathbf{X}) \\
+        &= \arg \min -\log p(\boldsymbol{\theta} | \mathbf{X}) \\
+        &= \arg \min -\log p(\mathbf{X}|\boldsymbol{\theta}) - \log p(\boldsymbol{\theta}) + \log p(\mathbf{X}) \\
+        &= \arg \min -\log p(\mathbf{X}|\boldsymbol{\theta}) - \log p(\boldsymbol{\theta})
+    \end{split}
+\end{equation}
+$\log p(\mathbf{X})$与$\theta$无关，可以丢掉。$-\log p(\mathbf{X}|\boldsymbol{\theta})$其实就是NLL，所以MLE和MAP不同在$- \log p(\boldsymbol{\theta})$。
+假定先验是一个高斯分布
+\begin{equation}
+    p(\boldsymbol{\theta}) = C \times e^{-\frac{\theta^2}{2\sigma^2}}
+\end{equation}
+那么
+\begin{equation}
+    -\log p(\boldsymbol{\theta}) = C + \frac{\theta^2}{2\sigma^2}
+\end{equation}
+
+在MAP中，使用一个高斯分布的先验等价于在MLE中采用$L^2$的正则化。MAP贝叶斯推断提供了一个直观的方法来设计复杂但可解释的
+正则化，更复杂的惩罚项可以通过混合高斯分布作为先验得到，而不是一个单独的高斯分布。
+
+
+预测新的观察数据$x$时，计算数据对后验概率分布的期望值：
+\begin{equation}
+    p(x | \mathbf{X}) = \int p(x | \boldsymbol{\theta}, \mathbf{X})p(\boldsymbol{\theta}|\mathbf{X})\mathrm{d}\boldsymbol{\theta}
+\end{equation}
 \section{Initialization scheme}
 \subsection{constant initialization}
 
@@ -145,6 +204,7 @@ $\hat p_{data}(\boldsymbol{x})$与模型无关
 
 \subsection{kaiming initalization}
 Xavier 针对对称激活函数的层权重初始化进行设计，但对于使用ReLu激活函数的层并不适用\cite{He2015}。
+-> 期望为0， 方差为1
 \par
 对ReLU层来说，$E(\mathbf{x}_l^2) = \frac{1}{2}Var(\mathbf{y}_l)$，因此
 \begin{equation}
@@ -268,16 +328,63 @@ Xavier 针对对称激活函数的层权重初始化进行设计，但对于使�
 \end{equation}
 
 \section{Batch Normalization}
+机器学习中假设：源空间和目标空间的数据分布是一致的，如果不一致，就是新的机器学习问题，例如transfer learning/domain adaptation
+等。而covariate shift就是分布不一致假设下的一个分支问题，它指的是源空间和目标空间的条件概率是一致的，但是其边缘概率不同.
+对于所有$x \in \chi $
+\begin{equation}
+    \begin{split}
+        P_s(Y|X = x) &= P_t(Y|X = x) \\
+        P_s(X) &\neq P_t(X)
+    \end{split}
+\end{equation}
 \begin{quotation}
     \textbf{Internal Covariate Shift} Training Deep Neural Networks is complicated by the fact that the distribution of each layer's inputs
 changes during training, as the parameters of the previous layers change. And this slows down the training 
 by requring lower lr ant careful parameter initialization, and makes it notoriously hard to train models
 with saturating nonlinearities.
 \end{quotation}
+解决方案：白化操作可以使得数据变为\textbf{独立同分布}
 \begin{quotation}
     By whitening the inputs to each layer, we would take a step towards achieving the fixed distribution
     of inputs that would remove the ill effects of the ICS.
 \end{quotation}
-但是每层的白化会影响梯度下降优化过程。每层进行白化计算量过大。保证模型的表达能力不因为规范化而下降。
+但是每层的白化会影响梯度下降优化过程。每层进行白化计算量过大。保证模型的表达能力不因为规范化而下降。 
+
 Simply normalizaing each input of a layer may change what the layer can represent. So, we make sure that
 the transformation inserted in the network can represent the identity transform.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8.5cm]{images/bn_algorithm.png}
+    \caption{Batch Normalization}
+    \label{fig:batchnorm}
+\end{figure}
+
+\section{How Does Batch Normalization Help Optimization?}
+Batch Normalization 对减少ICS起到了很少的作用，it makes the optimization landscape significantly smoother.
+\begin{itemize}
+    \item \textbf{Is the effectiveness of BatchNorm indeed related to internal covariate shift?} The 'noisy' BatchNorm 
+    network has qualitatively less stable distributions than even the standard, non-BatchNoram network, yet it still 
+    better performs better in terms of training.
+    \item \textbf{Is BatchNorm reducing internal covariate shift?} We Observe that networks with BatchNorm often
+    exhibit an increase in ICS.
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=14cm]{images/bn_landscape.png}
+    \label{fig:bn_landscape}
+\end{figure}
+
+\textbf{Why does BatchNorm work?}
+
+
+BatchNorm reparametrizes the underlying optimization problem to make its landscape significatly more smooth.
+The key implication of BatchNorm's reparametrization is that it makes the gradients more reliable and predictive.
+After all, improved Lipschitzness of the gradients gives us confidence that when we take a larger step in a direction 
+of a computed gradient, this gradient direction remains a fairly accurate estimate of the actual gradient direction after 
+taking that step.
+
+\textbf{Is BatchNorm the best way to smoothen the landscape?}
+
+In fact, for deep linear networks, $l_1$–normalization performs even better than BatchNorm. Note that, 
+qualitatively, the $l_p$–normalization techniques lead to larger distributional shift than the vanilla,
+ i.e., unnormalized, networks, yet they still yield improved optimization performance.

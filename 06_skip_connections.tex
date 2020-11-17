@@ -75,16 +75,63 @@ then we will have:
     \textbf{gradients in standard feedforward networks increasingly resemble white noise}\cite{Balduzzi2017}.
 \end{quotation}
 \begin{itemize}
-    \item Gradients of shallow networks resemble brown noise.
-    \item Gradients of deep networks resemble white noise.
+    \item Gradients of shallow networks resemble brown noise(布朗噪声).
+    \item Gradients of deep networks resemble white noise(白噪声).
     \item Training is difficult when gradients behave like white noise.
     \item Gradients of deep resnets lie in between brown and white noise.
 \end{itemize}
 
+在标准前馈神经网络中，神经元相关性按指数级减少($\frac{1}{2^L}$),同时，梯度的空间结构也随着深度增加被逐渐消除。
+使用BatchNorm的ResNets中梯度相关系减少的速度从指数级减少到亚线性级($\frac{1}{\sqrt(L)}$)，极大的保留梯度的空间结构。
 
-\section{恒等映射的意义}
-TODO:
-\begin{itemize}
-    \item 多尺度特征融合
-    \item propagating information
-\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=14cm]{images/brown_white_noise.png}
+    \caption{The shattered Gradients Problem}
+    \label{fig:brown_white_noise}
+\end{figure}
+
+
+\section{DenseNet}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=14cm]{images/densenet.png}
+    \caption{DenseNet}
+    \label{fig:densenet}
+\end{figure}
+
+\section{FCN}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=14cm]{images/fcns.png}
+    \caption{FCN}
+    \label{fig:fcn}
+\end{figure}
+
+\section{UNet family}
+\section{FCN}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=14cm]{images/unet.png}
+    \caption{UNet}
+    \label{fig:unet}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=14cm]{images/unet2+.png}
+    \caption{UNet 2+}
+    \label{fig:unet2p}
+\end{figure}
+
+多深合适？降采样对分割网络到底是不是必须的？
+不一定要降到第四次才上采样，使用浅层和深层的特征。
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=14cm]{images/unet3+.png}
+    \caption{UNet 3+}
+    \label{fig:unet3p}
+\end{figure}
+都缺乏从全尺度探索足够信息的能力，未能明确了解器官的位置和边界。UNet 3+中的每一个解码器层都融合了来自编码器中的小尺度和同尺度的特征图，
+以及来自解码器的大尺度的特征图，这些特征图捕获了全尺度下的细粒度语义和粗粒度语义。
