@@ -15,6 +15,13 @@
 - [x] [2018] Smoothness of the Optimization Landscape - [How Does Batch Normalization Help Optimization?](https://arxiv.org/abs/1805.11604)
 - [x] [2019] [Rethinking the Usage of Batch Normalization and Dropout in the Training of Deep Neural Networks](https://arxiv.org/abs/1905.05928)
 
+### Deep supervision
+
+- [ ] [2014] [Deeply-Supervised Nets](https://arxiv.org/abs/1409.5185)
+- [ ] [2015] [Training Deeper Convolutional Networks with Deep Supervision](https://arxiv.org/abs/1505.02496)
+
+### Data Augmentation
+
 ## Optimization Algorithms
 
 - [ ] [An overview of gradient descent optimization algorithms](https://ruder.io/optimizing-gradient-descent/)
@@ -48,18 +55,47 @@
 
 ## Object Detection & Semantic Segmentation
 
+- [ ] [2013] R-CNN - [Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
+- [ ] [2014] SPPNet - [Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition](https://arxiv.org/abs/1406.4729)
 - [x] [2014] FCN - [Fully Convolutional Networks for Semantic Segmentation](https://arxiv.org/abs/1411.4038)
-- [ ] [2015] [U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/abs/1505.04597)
+- [ ] [2015] [Fast R-CNN](https://arxiv.org/abs/1504.08083)
+- [ ] [2015] [Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks](https://arxiv.org/abs/1506.01497)
+- [ ] [2015] YOLOv1 - [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640)
+- [ ] [2015] [SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325)
+- [ ] [2016] YOLOv2 - [YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
+- [ ] [2017] [Mask R-CNN](https://arxiv.org/abs/1703.06870)
+- [ ] [2018] [YOLOv3: An Incremental Improvement](https://arxiv.org/abs/1804.02767)
+- [ ] [2019] [Mask Scoring R-CNN](https://arxiv.org/abs/1903.00241)
+- [ ] [2019] [CenterMask : Real-Time Anchor-Free Instance Segmentation](https://arxiv.org/abs/1911.06667)
+- [ ] [2019] [SOLO: Segmenting Objects by Locations](https://arxiv.org/abs/1912.04488)
+- [ ] [2019] [PointRend: Image Segmentation as Rendering](https://arxiv.org/abs/1912.08193)
+- [ ] [2020] [SOLOv2: Dynamic and Fast Instance Segmentation](https://arxiv.org/abs/2003.10152)
+- [ ] [2020] [BlendMask: Top-Down Meets Bottom-Up for Instance Segmentation](https://arxiv.org/abs/2001.00309)
+
+### UNet family
+
+- [x] [2015] [U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/abs/1505.04597)
 - [ ] [2016] [V-Net: Fully Convolutional Neural Networks for Volumetric Medical Image Segmentation](https://arxiv.org/abs/1606.04797)
-- [ ] [2018] [UNet++: A Nested U-Net Architecture for Medical Image Segmentation](https://arxiv.org/abs/1807.10165)
-- [ ] [2020] [UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation](https://arxiv.org/abs/2004.08790)
+- [x] [2018] [UNet++: A Nested U-Net Architecture for Medical Image Segmentation](https://arxiv.org/abs/1807.10165)
+- [x] [2020] [UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation](https://arxiv.org/abs/2004.08790)
 
+## Deep Generative Models
 
-## GAN
+### VAE
 
-- [ ] [2014] GAN - [Generative Adversarial Nets](https://arxiv.org/abs/1406.2661)
-- [ ] [2014] CGAN - [Conditional Generative Adversarial Nets](https://arxiv.org/abs/1411.1784)
-- [ ] [2015] DCGAN - [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/abs/1511.06434)
+- [ ] [2013] [Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114)
+- [ ] [2014] [Stochastic Backpropagation and Approximate Inference in Deep Generative Models](https://arxiv.org/abs/1401.4082)
+- [ ] [2016] [Tutorial on Variational Autoencoders](https://arxiv.org/abs/1606.05908)
+- [ ] [2018] [Variational Inference: A Review for Statisticians](https://arxiv.org/abs/1601.00670)
+
+### GAN
+
+- [x] [2014] GAN - [Generative Adversarial Nets](https://arxiv.org/abs/1406.2661)
+- [x] [2014] CGAN - [Conditional Generative Adversarial Nets](https://arxiv.org/abs/1411.1784)
+- [x] [2014] LAPGAN - [Deep Generative Image Models using a Laplacian Pyramid of Adversarial Networks](https://arxiv.org/abs/1506.05751)
+- [x] [2015] DCGAN - [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/abs/1511.06434)
+- [ ] [2016] [Pixel-Level Domain Transfer](https://arxiv.org/abs/1603.07442)
+- [ ] [2016] [InfoGAN: Interpretable Representation Learning by Information Maximizing Generative Adversarial Nets](https://arxiv.org/abs/1606.03657)
 - [ ] [2016] [Improved Techniques for Training GANs](https://arxiv.org/abs/1606.03498)
 - [ ] [2016] Pix2Pix - [Image-to-Image Translation with Conditional Adversarial Networks](https://arxiv.org/abs/1611.07004)
 - [ ] [2016] [StackGAN: Text to Photo-realistic Image Synthesis with Stacked Generative Adversarial Networks](https://arxiv.org/abs/1612.03242)
