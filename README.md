@@ -104,6 +104,7 @@
 - [x] [2016] Pix2Pix - [Image-to-Image Translation with Conditional Adversarial Networks](https://arxiv.org/abs/1611.07004)
 - [x] [2016] ACGAN - [Conditional Image Synthesis with Auxiliary Classifier GANs](https://arxiv.org/abs/1610.09585)
 - [x] [2016] [StackGAN: Text to Photo-realistic Image Synthesis with Stacked Generative Adversarial Networks](https://arxiv.org/abs/1612.03242)
+- [ ] [2017] [Towards Principled Methods for Training Generative Adversarial Networks](https://arxiv.org/abs/1701.04862)
 - [ ] [2017] WGAN - [Wasserstein GAN](https://arxiv.org/abs/1701.07875)
 - [x] [2017] LSGAN - [Least Squares Generative Adversarial Networks](https://arxiv.org/abs/1611.04076)
 - [x] [2017] CycleGAN - [Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks](https://arxiv.org/abs/1703.10593)
