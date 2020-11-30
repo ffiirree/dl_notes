@@ -7,5 +7,51 @@ https://aiden.nibali.org/blog/2017-01-18-mode-collapse-gans/
 https://vincentherrmann.github.io/blog/wasserstein/
 
 \section{GAN}
+\begin{equation}
+    \min_G \max_D V(D, G) = E_{\boldsymbol{x} \thicksim p_{data}(\boldsymbol{x})}[\log D(\boldsymbol{x})] + E_{\boldsymbol{z} \thicksim p_{\boldsymbol{z}}(\boldsymbol{z})}[\log (1 - D(G(\boldsymbol{z})))]
+\end{equation}
+The training criterion for the discriminator D, given any generator G, is to maximize the
+quantity V(G, D)
+\begin{equation}
+    \begin{split}
+        V(G, D) &= \int_{\boldsymbol{x}} p_{data}(\boldsymbol{x}) \log (D(\boldsymbol{x})) dx \int_{\boldsymbol{z}} p_{\boldsymbol{z}}(\boldsymbol{z}) \log(1 - D(g(\boldsymbol{z})))dz \\
+        &= \int_{\boldsymbol{x}} p_{data}(\boldsymbol{x}) \log(D(\boldsymbol{x})) + p_g(\boldsymbol{x}) \log (1 - D(\boldsymbol{x})) dx
+    \end{split}
+\end{equation}
 
+For any $(a, b) \in \mathbb{R}^2 \backslash {0, 0}$, the function $ y \to a\log(y) + b\log(1 - y)$
+achieves its maximum in [0, 1] at $\frac{a}{a + b}$.
+So, for G fixed, the optimal discriminator D is
+\begin{equation}
+    D_{G}^{*}(\boldsymbol{x}) = \frac{p_{data}(\boldsymbol{x})}{p_{data}(\boldsymbol{x}) + p_g(\boldsymbol{x})}
+\end{equation}
+
+Note that the training objective for D can be interpreted as maximizing the log-likelihood for
+estimating the conditional probability $P(Y = y|\boldsymbol{x}), \boldsymbol{x} \in p_{data} or \in p_g$, then
+\begin{equation}
+    \begin{split}
+        C(G) &= max_D V(G, D) \\
+        &= \mathbb{E}_{\boldsymbol{x} \thicksim p_{data}}[\log D_G^*(\boldsymbol{x})] + \mathbb{E}_{\boldsymbol{z} \thicksim p_{\boldsymbol{z}}}[\log(1 - D_G^*(G(\boldsymbol{z})))] \\
+        &= \mathbb{E}_{\boldsymbol{x} \thicksim p_{data}}[\log D_G^*(\boldsymbol{x})] + \mathbb{E}_{\boldsymbol{x} \thicksim p_{g}}[\log D_G^*(\boldsymbol{x})] \\
+        &= \mathbb{E}_{\boldsymbol{x} \thicksim p_{data}}[\log \frac{p_{data}(\boldsymbol{x})}{p_{data}(\boldsymbol{x}) + p_g(\boldsymbol{x})}] + \mathbb{E}_{\boldsymbol{x} \thicksim p_g}[\log \frac{p_g(\boldsymbol{x})}{p_{data}(\boldsymbol{x}) + p_g(\boldsymbol{x})}]
+    \end{split}
+\end{equation}
+The global minimum of C(G) is achieved if and onl if $p_g = p_{data}$. and
+\begin{equation}
+    C(G) = - \log 4
+\end{equation}
+and that by substracting this expression from $C(G) = V(D_G^*, G)$, we abtain:
+\begin{equation}
+    \begin{split}
+        C(G) &= -log(4) + KL(p_{data}\| \frac{p_{data} + p_g}{2}) + KL(p_g \| \frac{p_data + p_g}{2}) \\
+        &= -2\log(2) + 2JSD(p_{data}\|p_g)
+    \end{split}
+\end{equation}
+在D最优的情况下，等价于优化JSD
 \section{CGAN}
+\begin{equation}
+    \min_G \max_D V(D, G) = E_{\boldsymbol{x} \thicksim p_{data}(\boldsymbol{x})}[\log D(\boldsymbol{x}|\boldsymbol{y})] + E_{\boldsymbol{z} \thicksim p_{\boldsymbol{z}}(\boldsymbol{z})}[\log (1 - D(G(\boldsymbol{z}|\boldsymbol{y})))]
+\end{equation}
+
+
+\section{KLD - JSD - Wasserstein Distance}
