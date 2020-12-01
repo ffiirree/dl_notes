@@ -91,6 +91,7 @@
 ### GAN
 
 - [ ] [2019] [The Six Fronts of the Generative Adversarial Networks](https://arxiv.org/abs/1910.13076)
+- [ ] [2019] [How Generative Adversarial Networks and Their Variants Work: An Overview](https://arxiv.org/abs/1711.05914)
 - [x] [2014] GAN - [Generative Adversarial Nets](https://arxiv.org/abs/1406.2661)
 - [x] [2014] CGAN - [Conditional Generative Adversarial Nets](https://arxiv.org/abs/1411.1784)
 - [x] [2014] LAPGAN - [Deep Generative Image Models using a Laplacian Pyramid of Adversarial Networks](https://arxiv.org/abs/1506.05751)
@@ -112,6 +113,7 @@
 - [ ] [2017] WGAN-GP - [Improved Training of Wasserstein GANs](https://arxiv.org/abs/1704.00028)
 - [ ] [2017] FID - [GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium](https://arxiv.org/abs/1706.08500)
 - [ ] [2017] PGAN - [Progressive Growing of GANs for Improved Quality, Stability, and Variation](https://arxiv.org/abs/1710.10196)
+- [ ] [2018] WGAN-div - [Wasserstein Divergence for GANs](https://arxiv.org/abs/1712.01026)
 - [ ] [2018] BSGAN - [Boundary-Seeking Generative Adversarial Networks](https://arxiv.org/abs/1702.08431)
 - [ ] [2018] SNGAN - [Spectral Normalization for Generative Adversarial Networks](https://arxiv.org/abs/1802.05957)
 - [ ] [2018] [cGANs with Projection Discriminator](https://arxiv.org/abs/1802.05637)
