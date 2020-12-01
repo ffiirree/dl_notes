@@ -63,10 +63,12 @@
 - [ ] [2015] YOLOv1 - [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640)
 - [ ] [2015] [SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325)
 - [ ] [2016] YOLOv2 - [YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
+- [ ] [2017] FPN - [Feature Pyramid Networks for Object Detection](https://arxiv.org/abs/1612.03144)
 - [ ] [2017] [Mask R-CNN](https://arxiv.org/abs/1703.06870)
 - [ ] [2018] [YOLOv3: An Incremental Improvement](https://arxiv.org/abs/1804.02767)
 - [ ] [2019] [Mask Scoring R-CNN](https://arxiv.org/abs/1903.00241)
 - [ ] [2019] [CenterMask : Real-Time Anchor-Free Instance Segmentation](https://arxiv.org/abs/1911.06667)
+- [ ] [2019] [EfficientDet: Scalable and Efficient Object Detection](https://arxiv.org/abs/1911.09070)
 - [ ] [2019] [SOLO: Segmenting Objects by Locations](https://arxiv.org/abs/1912.04488)
 - [ ] [2019] [PointRend: Image Segmentation as Rendering](https://arxiv.org/abs/1912.08193)
 - [ ] [2020] [SOLOv2: Dynamic and Fast Instance Segmentation](https://arxiv.org/abs/2003.10152)
@@ -78,6 +80,12 @@
 - [ ] [2016] [V-Net: Fully Convolutional Neural Networks for Volumetric Medical Image Segmentation](https://arxiv.org/abs/1606.04797)
 - [x] [2018] [UNet++: A Nested U-Net Architecture for Medical Image Segmentation](https://arxiv.org/abs/1807.10165)
 - [x] [2020] [UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation](https://arxiv.org/abs/2004.08790)
+
+## Style Transfer
+
+## Super Resolution
+
+## Pose Estimation
 
 ## Deep Generative Models
 
