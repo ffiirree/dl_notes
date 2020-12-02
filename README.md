@@ -81,7 +81,18 @@
 - [x] [2018] [UNet++: A Nested U-Net Architecture for Medical Image Segmentation](https://arxiv.org/abs/1807.10165)
 - [x] [2020] [UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation](https://arxiv.org/abs/2004.08790)
 
-## Style Transfer
+## Neural Style Transfer
+
+- [ ] [2018] [Neural Style Transfer: A Review](https://arxiv.org/abs/1705.04058)
+- [ ] [2015] [A Neural Algorithm of Artistic Style](https://arxiv.org/abs/1508.06576)
+- [ ] [2016] [CVPR] [Image Style Transfer Using Convolutional Neural Networks](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf)
+- [ ] [2016] [Perceptual Losses for Real-Time Style Transfer and Super-Resolution](https://arxiv.org/abs/1603.08155)
+- [ ] [2016] [Texture Networks: Feed-forward Synthesis of Textures and Stylized Images](https://arxiv.org/abs/1603.03417)
+- [ ] [2016] [Instance Normalization: The Missing Ingredient for Fast Stylization](https://arxiv.org/abs/1607.08022)
+- [ ] [2017] [StyleBank: An Explicit Representation for Neural Image Style Transfer](https://arxiv.org/abs/1703.09210)
+- [ ] [2017] [A Learned Representation For Artistic Style](https://arxiv.org/abs/1610.07629)
+- [ ] [2017] [Exploring the structure of a real-time, arbitrary neural artistic stylization network](https://arxiv.org/abs/1705.06830)
+- [ ] [2017] [Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization](https://arxiv.org/abs/1703.06868)
 
 ## Super Resolution
 
