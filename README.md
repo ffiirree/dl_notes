@@ -110,10 +110,11 @@
 
 ### VAE
 
-- [ ] [2013] [Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114)
+- [x] [2013] `VAE` - [Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114)
 - [ ] [2014] [Stochastic Backpropagation and Approximate Inference in Deep Generative Models](https://arxiv.org/abs/1401.4082)
-- [ ] [2016] [Tutorial on Variational Autoencoders](https://arxiv.org/abs/1606.05908)
-- [ ] [2018] [Variational Inference: A Review for Statisticians](https://arxiv.org/abs/1601.00670)
+- [x] [2016] [Tutorial on Variational Autoencoders](https://arxiv.org/abs/1606.05908)
+- [ ] [2015] `CVAE` - [Learning Structured Output Representation using Deep Conditional Generative Models](https://papers.nips.cc/paper/2015/file/8d55a249e6baa5c06772297520da2051-Paper.pdf) [NeurIPS]
+- [x] [2018] `VI` - [Variational Inference: A Review for Statisticians](https://arxiv.org/abs/1601.00670)
 
 ### GAN
 

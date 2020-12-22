@@ -11,12 +11,34 @@
 
 \section{iid}
 
+\section{Convolution}
+\section{Transposed Convolution}
+\begin{equation}
+    \begin{split}
+        H_{out} &= (H_{in} - 1) \times \text{stride}[0] - 2 \times \text{padding}[0] + \text{dilation}[0]
+        \times (\text{kernel\_size}[0] - 1) + \text{output\_padding}[0] + 1 \\
+    W_{out} &= (W_{in} - 1) \times \text{stride}[1] - 2 \times \text{padding}[1] + \text{dilation}[1]
+        \times (\text{kernel\_size}[1] - 1) + \text{output\_padding}[1] + 1
+    \end{split}
+\end{equation}
+
 \section{Universal approximation theorem}
 \begin{quotation}
     Any continuous function can be uniformly approximated by a continuous neural network having only one
     internal, hidden layer and with an arbitrary continuous sigmoidal nonlinearity.\cite{Cybenko1989}
 \end{quotation}
 \par万能近似定理最初以sigmoidal激活函数来描述，后被证明对于更广泛的激活函数也适用\cite{Leshno1993}，包括ReLU。
+
+\section{$f$-divergence}
+\begin{tabular}{cc}
+\toprule
+Divergence & f \\
+\midrule
+KLD & $t\log{t}$ \\
+reverse KLD & $-\log{t}$ \\
+squared Hellinger distance & $(\sqrt{t} - 1)^2, 2(1 - \sqrt{t})$ \\
+\bottomrule
+\end{tabular}
 
 \section{Maximum likelihood estimation}
 \textbf{Frequentist statistics}
@@ -72,7 +94,7 @@ $\hat p_{data}(\boldsymbol{x})$与模型无关，其中
 \subsection{熵、KL散度和交叉熵}
 \begin{itemize}
     \item 熵:$H(X)=-\sum_i^n p(x_i)\log p(x_i)$，表示不确定程度，越不确定值越大
-    \item KL散度(相对熵): $D_{KL}(p_{\theta}||p_{\hat\theta}) = \sum_i^n p_{\theta}(x_i) \log {p_{\theta}(x_i)} - \sum_i^np_{\theta}(x_i) \log {p_{\hat\theta}(x_i)}$ 
+    \item KL散度(相对熵): $D_{KL}(p_{\theta}||p_{\hat\theta}) = \sum_i^n p_{\theta}(x_i) \log {p_{\theta}(x_i)} - \sum_i^np_{\theta}(x_i) \log {p_{\hat\theta}(x_i)}$
     \item 交叉熵: $CE(X) = - \sum_i^np_{\theta}(x_i) \log {p_{\hat\theta}(x_i)}$
 \end{itemize}
 从定义里可以看出，当熵为常量时，KL散度和交叉熵等价。
@@ -339,7 +361,7 @@ Xavier 针对对称激活函数的层权重初始化进行设计，但对于使�
 \end{equation}
 \begin{quotation}
     \textbf{Internal Covariate Shift} Training Deep Neural Networks is complicated by the fact that the distribution of each layer's inputs
-changes during training, as the parameters of the previous layers change. And this slows down the training 
+changes during training, as the parameters of the previous layers change. And this slows down the training
 by requring lower lr ant careful parameter initialization, and makes it notoriously hard to train models
 with saturating nonlinearities.
 \end{quotation}
@@ -348,7 +370,7 @@ with saturating nonlinearities.
     By whitening the inputs to each layer, we would take a step towards achieving the fixed distribution
     of inputs that would remove the ill effects of the ICS.
 \end{quotation}
-但是每层的白化会影响梯度下降优化过程。每层进行白化计算量过大。保证模型的表达能力不因为规范化而下降。 
+但是每层的白化会影响梯度下降优化过程。每层进行白化计算量过大。保证模型的表达能力不因为规范化而下降。
 
 Simply normalizaing each input of a layer may change what the layer can represent. So, we make sure that
 the transformation inserted in the network can represent the identity transform.
@@ -362,8 +384,8 @@ the transformation inserted in the network can represent the identity transform.
 \section{How Does Batch Normalization Help Optimization?}
 Batch Normalization 对减少ICS起到了很少的作用，it makes the optimization landscape significantly smoother.
 \begin{itemize}
-    \item \textbf{Is the effectiveness of BatchNorm indeed related to internal covariate shift?} The 'noisy' BatchNorm 
-    network has qualitatively less stable distributions than even the standard, non-BatchNoram network, yet it still 
+    \item \textbf{Is the effectiveness of BatchNorm indeed related to internal covariate shift?} The 'noisy' BatchNorm
+    network has qualitatively less stable distributions than even the standard, non-BatchNoram network, yet it still
     better performs better in terms of training.
     \item \textbf{Is BatchNorm reducing internal covariate shift?} We Observe that networks with BatchNorm often
     exhibit an increase in ICS.
@@ -379,12 +401,12 @@ Batch Normalization 对减少ICS起到了很少的作用，it makes the optimiza
 
 BatchNorm reparametrizes the underlying optimization problem to make its landscape significatly more smooth.
 The key implication of BatchNorm's reparametrization is that it makes the gradients more reliable and predictive.
-After all, improved Lipschitzness of the gradients gives us confidence that when we take a larger step in a direction 
-of a computed gradient, this gradient direction remains a fairly accurate estimate of the actual gradient direction after 
+After all, improved Lipschitzness of the gradients gives us confidence that when we take a larger step in a direction
+of a computed gradient, this gradient direction remains a fairly accurate estimate of the actual gradient direction after
 taking that step.
 
 \textbf{Is BatchNorm the best way to smoothen the landscape?}
 
-In fact, for deep linear networks, $l_1$–normalization performs even better than BatchNorm. Note that, 
+In fact, for deep linear networks, $l_1$–normalization performs even better than BatchNorm. Note that,
 qualitatively, the $l_p$–normalization techniques lead to larger distributional shift than the vanilla,
  i.e., unnormalized, networks, yet they still yield improved optimization performance.
