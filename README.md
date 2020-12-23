@@ -108,6 +108,11 @@
 
 ## Deep Generative Models
 
+### Auto Regressive Models
+
+- [ ] [2016] `PixelRNN` - [Pixel Recurrent Neural Networks](https://arxiv.org/abs/1601.06759) [arXiv]
+- [ ] [2016] `PixelCNN` - [Conditional Image Generation with PixelCNN Decoders](https://arxiv.org/abs/1606.05328) [NeurIPS]
+
 ### VAE
 
 - [x] [2013] `VAE` - [Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114)

@@ -1,8 +1,8 @@
 \documentclass[UTF8]{book}
+
 \usepackage{ctex}
 \usepackage[colorlinks=true]{hyperref}
-\usepackage{amsmath}
-\usepackage{amssymb}
+\usepackage{amssymb,amsmath}
 \usepackage{tikz}
 \usepackage{graphicx}
 \usepackage{float}
@@ -10,10 +10,12 @@
 \usepackage{fancyhdr}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{mathpazo} % Use the Palatino font
 \usepackage[T1]{fontenc}
+\linespread{1.05} % Change line spacing here, Palatino benefits from a slight increase by default
 \usepackage{palatino}
 \usepackage{booktabs}
-\usepackage[stable]{footmisc}
+\usepackage{bm}
 
 \geometry{a4paper, left=2.5cm, top=2.5cm, bottom=2cm}
 \geometry{hcentering}
@@ -30,15 +32,18 @@
 
 \tableofcontents
 
-\input{01_linear_algebra.tex}
-\input{02_statistics.tex}
-\input{03_basic.tex}
-\input{04_optimization_algorithms.tex}
-\input{05_models.tex}
-\input{06_skip_connections.tex}
-\input{07_semantic_segmentation.tex}
-\input{08_autoencoders.tex}
-\input{09_deep_generation_model.tex}
+\input{math_notation}
+
+\input{01_linear_algebra}
+\input{02_statistics}
+\input{03_basic}
+\input{04_optimization_algorithms}
+\input{05_models}
+\input{06_skip_connections}
+\input{07_semantic_segmentation}
+\input{08_autoencoders}
+\input{09_deep_generation_model}
+\input{10_reinforcement_learning}
 
 \bibliographystyle{plain}
 \bibliography{references}

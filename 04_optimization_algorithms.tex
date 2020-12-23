@@ -106,27 +106,27 @@ can help in this case. These methods cannot be applied to deep learning directly
 \subsubsection{Newton's Method}
 当Taylor expansion展开到二阶导数时:
 \begin{equation}
-    f(\mathbf{x} + \epsilon) = f(\mathbf{x}) + \epsilon^\top \nabla f(\mathbf{x}) + \frac{1}{2} \epsilon^\top H_f \epsilon
+    f(\vx + \epsilon) = f(\vx) + \epsilon^\top \nabla f(\vx) + \frac{1}{2} \epsilon^\top H_f \epsilon
     + \mathcal{O}(\|\epsilon\|^3)
 \end{equation}
-we define $H_f := \nabla \nabla ^\top f(\mathbf{x})$ to be the \textit{Hession} of $f$. $H$ is a $d \times  d$ matrix and may be
+we define $H_f := \nabla \nabla ^\top f(\vx)$ to be the \textit{Hession} of $f$. $H$ is a $d \times  d$ matrix and may be
 prohibitively large, due to the cost of storing $\mathcal{O}(d^2)$ entries.
 
 \par
 
-After all, the minimum of $f$ statifies $\nabla f(\mathbf{x}) = 0$.  Taking derivatives of above equtaion with regard to $\eta$ and
+After all, the minimum of $f$ statifies $\nabla f(\vx) = 0$.  Taking derivatives of above equtaion with regard to $\eta$ and
 ignoring higher order terms we arrive at
 \begin{equation}
     \begin{split}
-        \nabla f(\mathbf{x}) + H_f \epsilon = 0 \\
-        \mathbf{\epsilon} = -H_f^{-1} \nabla f(\mathbf{x})
+        \nabla f(\vx) + H_f \epsilon = 0 \\
+        \bm{\epsilon} = -H_f^{-1} \nabla f(\vx)
     \end{split}
 \end{equation}
 
-then, $\epsilon = -\eta \nabla f(\mathbf{x})$, we get
+then, $\epsilon = -\eta \nabla f(\vx)$, we get
 \begin{equation}
     \begin{split}
-        \mathbf{\eta} = -H_f^{-1}
+        \bm{\eta} = -H_f^{-1}
     \end{split}
 \end{equation}
 
@@ -159,37 +159,37 @@ In the case of convex optimization there are a number of proofs which show that 
 
 \subsection{Minibatch Stochastic Gradient Descent}
 At each iteration of stochastic gradient descent, we uniformly sample an index $i \in {i,..., n}$ for data examples at
-random, and compute the gradient $\nabla f_i(\mathbf{x})$ to update $\mathbf{x}$:
+random, and compute the gradient $\nabla f_i(\vx)$ to update $\vx$:
 \begin{equation}
-    \mathbf{x} \leftarrow \mathbf{x} - \eta \nabla f_i(\mathbf{x})
+    \vx \leftarrow \vx - \eta \nabla f_i(\vx)
 \end{equation}
 
-The stochastic gradient $\nabla f_i(\mathbf{x})$ is the \textit{unbiased estimate} of gradient $\nabla f(\mathbf{x})$.
+The stochastic gradient $\nabla f_i(\vx)$ is the \textit{unbiased estimate} of gradient $\nabla f(\vx)$.
 That means the stochastic gradient is a good estimate of the gradient.
 \begin{equation}
-    \mathbb{E}_i \nabla f_i(\mathbf{x}) = \frac{1}{n} \sum_{i=1}^n \nabla f_i (\mathbf{x}) = \nabla f(\mathbf{x})
+    \E_i \nabla f_i(\vx) = \frac{1}{n} \sum_{i=1}^n \nabla f_i (\vx) = \nabla f(\vx)
 \end{equation}
 
 \section{SGDM - SGD with Momentum}
 
 \begin{equation}
     \begin{split}
-        \mathbf{v}_t &\leftarrow \beta \mathbf{v}_{t-1} + \nabla f(\mathbf{x}) \\
-        \mathbf{x}_t &\leftarrow \mathbf{x}_{t-1} - \eta_t \mathbf{v}_{t}
+        \vv_t &\leftarrow \beta \vv_{t-1} + \nabla f(\vx) \\
+        \vx_t &\leftarrow \vx_{t-1} - \eta_t \vv_{t}
     \end{split}
 \end{equation}
 
-$\mathbf{v}$ is called \textit{momentum}. Momentum replaces gradients with a leaky average over past gradients. This
+$\vv$ is called \textit{momentum}. Momentum replaces gradients with a leaky average over past gradients. This
 accelerates convergence significantly. And it prevents stalling of the optimization process that is much more
 likely to occur for stochastic gradient descent.
 
 \subsubsection{An Ill-conditioned Problem}
 \begin{equation}
-    f(\mathbf{x}) = 0.1 x_1^2 + 2 x_2^2
+    f(\vx) = 0.1 x_1^2 + 2 x_2^2
 \end{equation}
 and we know that $f$ has minimum at $(0, 0)$. Then we get
 \begin{equation}
-    \nabla f(\mathbf{x}) =
+    \nabla f(\vx) =
     \begin{bmatrix}
         0.2x_1 \\
         4x_2
@@ -200,8 +200,8 @@ let's start at $(2, 2)$, $\eta = 0.4, \beta = 0.6$.
 \section{NAG - Nesterov Accelerated Gradient}
 \begin{equation}
     \begin{split}
-        \mathbf{v}_t &= \alpha \mathbf{v}_{t-1} + \eta \nabla_\theta J(\theta - \alpha \mathbf{v}_{t-1})\\
-        \theta &= \theta - \mathbf{v}_t
+        \vv_t &= \alpha \vv_{t-1} + \eta \nabla_\theta J(\theta - \alpha \vv_{t-1})\\
+        \theta &= \theta - \vv_t
     \end{split}
 \end{equation}
 
@@ -213,9 +213,9 @@ features converge rather quickly to their optimal values.
 
 \begin{equation}
     \begin{split}
-        \mathbf{g}_t &= \partial _{\mathbf{w}} l(y_t, f(\mathbf{x}_t, \mathbf{w}))\\
-        \mathbf{s}_t &= \mathbf{s}_{t-1} + \mathbf{g}_t^2 \\
-        \mathbf{w}_t &= \mathbf{w}_{t-1} - \frac{\eta}{\sqrt{\mathbf{s}_t + \epsilon}} \cdot \mathbf{g}_t
+        \vg_t &= \partial _{\vw} l(y_t, f(\vx_t, \vw))\\
+        \vs_t &= \vs_{t-1} + \vg_t^2 \\
+        \vw_t &= \vw_{t-1} - \frac{\eta}{\sqrt{\vs_t + \epsilon}} \cdot \vg_t
     \end{split}
 \end{equation}
 learning rate不再简单的是时间的函数，而是和梯度相关，lr的减小速度和梯度正相关，每个维度都有自己的learning rate.
@@ -231,20 +231,20 @@ learning rate不再简单的是时间的函数，而是和梯度相关，lr的�
 A variant of AdaGrad.
 
 \begin{quotation}
-    As a result $\mathbf{s}_t$ keeps on growing without bound due to the lack of normalization, essentially linearly
+    As a result $\vs_t$ keeps on growing without bound due to the lack of normalization, essentially linearly
     as the algorithm converges.
 \end{quotation}
 \begin{equation}
     \begin{split}
-        \mathbf{s}_t &\leftarrow \gamma\mathbf{s}_{t-1} + (1-\gamma)\mathbf{g}^2_{t} \\
-        \mathbf{x}_t &\leftarrow \mathbf{x}_{t-1} - \frac{\eta}{\sqrt{\mathbf{s}_t + \epsilon}} \odot \mathbf{g}_t
+        \vs_t &\leftarrow \gamma\vs_{t-1} + (1-\gamma)\vg^2_{t} \\
+        \vx_t &\leftarrow \vx_{t-1} - \frac{\eta}{\sqrt{\vs_t + \epsilon}} \odot \vg_t
     \end{split}
 \end{equation}
 
 \begin{equation}
     \begin{split}
-        \mathbf{s}_t &= (1-\gamma) \mathbf{g}^2_t + \gamma\mathbf{s}_{t-1} \\
-        &= (1-\gamma)(\mathbf{g}^2_t + \gamma\mathbf{g}^2_{t-1} + \gamma^2\mathbf{g}^2_{t-2}+...)
+        \vs_t &= (1-\gamma) \vg^2_t + \gamma\vs_{t-1} \\
+        &= (1-\gamma)(\vg^2_t + \gamma\vg^2_{t-1} + \gamma^2\vg^2_{t-2}+...)
     \end{split}
 \end{equation}
 
@@ -252,28 +252,28 @@ A variant of AdaGrad.
 A variant of AdaGrad.
 \begin{equation}
     \begin{split}
-        \mathbf{s}_t &= \rho \mathbf{s}_{t-1} + (1-\rho)\mathbf{g}^2_t \\
-        \mathbf{g}'_t &= \frac{\sqrt{\Delta \mathbf{x}_{t-1} + \epsilon}}{\sqrt{\mathbf{s}_t + \epsilon}} \odot \mathbf{g}_t\\
-        \Delta \mathbf{x}_t &= \rho \Delta \mathbf{x}_{t-1} + (1 - \rho)\mathbf{g}'^2_t\\
-        \mathbf{x}_t &= \mathbf{x}_{t-1} - \mathbf{g}'_t
+        \vs_t &= \rho \vs_{t-1} + (1-\rho)\vg^2_t \\
+        \vg'_t &= \frac{\sqrt{\Delta \vx_{t-1} + \epsilon}}{\sqrt{\vs_t + \epsilon}} \odot \vg_t\\
+        \Delta \vx_t &= \rho \Delta \vx_{t-1} + (1 - \rho)\vg'^2_t\\
+        \vx_t &= \vx_{t-1} - \vg'_t
     \end{split}
 \end{equation}
 
 \section{Adam}
 \begin{equation}
     \begin{split}
-        \mathbf{v}_t &\leftarrow \beta_1 \mathbf{v}_{t-1} + (1-\beta_1)\mathbf{g}_t \\
-        \mathbf{s}_t &\leftarrow \beta_2 \mathbf{s}_{t-1} + (1-\beta_2)\mathbf{g}^2_t
+        \vv_t &\leftarrow \beta_1 \vv_{t-1} + (1-\beta_1)\vg_t \\
+        \vs_t &\leftarrow \beta_2 \vs_{t-1} + (1-\beta_2)\vg^2_t
     \end{split}
 \end{equation}
 Common choices for them are $\beta_1 = 0.9$ and $\beta_2 = 0.9999$. That is, the variance estimate moves \textit{much more slowly}
-than the momentum term. Note that if we initialize $\mathbf{v}_0 = \mathbf{s}_0 = 0$ we have a significant amount of bias initally
+than the momentum term. Note that if we initialize $\vv_0 = \vs_0 = 0$ we have a significant amount of bias initally
 towards smaller values. This can be addressed by using the fact that $\sum_{i=0}^t = \frac{1-\beta^t}{1-\beta}$ to re-normalize terms.
 \begin{equation}
     \begin{split}
-        \mathbf{\hat v}_t &= \frac{\mathbf{v}_t}{1-\beta_1^t} \\
-        \mathbf{\hat s}_t &= \frac{\mathbf{s}_t}{1-\beta_2^t} \\
-        \mathbf{x}_t &\leftarrow \mathbf{x}_{t-1} - \frac{\eta \mathbf{\hat v}_t}{\sqrt{\mathbf{\hat s}_t} + \epsilon}
+        \hat{\vv}_t &= \frac{\vv_t}{1-\beta_1^t} \\
+        \hat{\vs}_t &= \frac{\vs_t}{1-\beta_2^t} \\
+        \vx_t &\leftarrow \vx_{t-1} - \frac{\eta \hat{\vv}_t}{\sqrt{\hat{\vs}_t} + \epsilon}
     \end{split}
 \end{equation}
 

@@ -43,21 +43,19 @@ squared Hellinger distance & $(\sqrt{t} - 1)^2, 2(1 - \sqrt{t})$ \\
 \section{Maximum likelihood estimation}
 \textbf{Frequentist statistics}
 
-
-深度学习来就是用模型$p_{model}(\boldsymbol{x};\boldsymbol{\theta})$来估计数据的真实分布$p_{data}(\boldsymbol{x};\boldsymbol{\theta})$，对
-于一组确定的数据集$X$，在样本已被观察到的情况下，需要找到使得$p_{model}(X; \boldsymbol{\theta})$出现可能性最大的一组参数$\boldsymbol{\theta}$，也就是
+深度学习来就是用模型$Q(x;\theta)$来估计数据的真实分布$P(x;\theta)$，对于一组确定的数据集$X$，在样本已被观察到的情况下，需要找到使得$Q(X; \theta)$出现可能性最大的一组参数$\theta$，也就是
 最大似然估计:
 \begin{equation}
     \begin{split}
-        \hat{\boldsymbol{\theta}}_{MLE} &= \arg \max_\theta p_{model}(X, \boldsymbol{\theta}) \\
-        &= \arg \max_{\boldsymbol{\theta}} \prod _{i=1}^m p_{model}(\boldsymbol{x}^i; \boldsymbol{\theta})
+        \hat{\theta}_{MLE} &= \arg \max_\theta Q(X, \theta) \\
+        &= \arg \max_{\theta} \prod _{i=1}^m Q(x^i; \theta)
     \end{split}
 \end{equation}
 等价于
 \begin{equation}
     \begin{split}
-        \hat{\boldsymbol{\theta}}_{MLE} &= \arg \max_{\boldsymbol{\theta}} \sum_{i=0}^m \log p_{model}(\boldsymbol{x}^i; \boldsymbol{\theta}) \\
-        &= \arg \min_{\boldsymbol{\theta}} - \sum_{i=0}^m \log p_{model}(\boldsymbol{x}^i; \boldsymbol{\theta})
+        \hat{\theta}_{MLE} &= \arg \max_{\theta} \sum_{i=0}^m \log Q(x^i; \theta) \\
+        &= \arg \min_{\theta} - \sum_{i=0}^m \log Q(x^i; \theta)
     \end{split}
 \end{equation}
 第二行的优化函数也被称为Negative Log Likelihood(NLL)
@@ -66,7 +64,7 @@ squared Hellinger distance & $(\sqrt{t} - 1)^2, 2(1 - \sqrt{t})$ \\
 除$m$，等价于
 \begin{equation}
     \begin{split}
-        \hat{\boldsymbol{\theta}}_{MLE} &= \arg \max_{\boldsymbol{\theta}} E _{x \sim \hat p_{data}} \log p_{model}(\boldsymbol{x}^i; \boldsymbol{\theta})
+        \hat{\theta}_{MLE} &= \arg \max_{\theta} E _{x \sim P} \log Q(x^i; \theta)
     \end{split}
 \end{equation}
 
@@ -74,53 +72,48 @@ squared Hellinger distance & $(\sqrt{t} - 1)^2, 2(1 - \sqrt{t})$ \\
 KL散度用来衡量两种分布之间的差异，
 \begin{equation}
     \begin{split}
-        D_{KL}(\hat p_{data}|| p_{model}) &= \sum_i \hat p_{data}(x_i) \log{\frac{\hat p_{data}(x_i)}{p_{model}(x_i)}}\\
-        &= \sum_i \hat p_{data}(x_i) \log\hat p_{data}(x_i) - \sum_i \hat p_{data}(x_i) \log p_{model}(x_i)
+        D_{KL}(P\|Q)
+        &= \E_{x \sim P(x)}[\log \frac{P(x)}{Q(x)}] \\
+        &= \E_{x \sim P(x)} \log P(x) - \E_{x \sim P(x)} \log Q(x)
     \end{split}
 \end{equation}
-$\hat p_{data}(\boldsymbol{x})$与模型无关，其中
+
+若$P(x)$为数据分布，$Q(x)$为模型学习的分布，则$P(x)$与模型无关，其中$\E_{x \sim P(x)} P(x)$为常量，则问题转换为
 \begin{equation}
-    \sum_i \hat p_{data}(x_i) \ln\hat p_{data}(x_i)
-\end{equation}
-为常量，则问题转换为
-\begin{equation}
-    \begin{split}
-        \arg \min D_{KL}(\hat p_{data}|| p_{model}) &= \arg \min - \sum_i \hat p_{data}(x_i) \log p_{model}(x_i)\\
-        &= \arg \min - E_x \log p_{model}(\mathbf{x})
-    \end{split}
+    \arg \min D_{KL}(P\|Q) = \arg \min - \E_{x \sim P(x)} Q(x)
 \end{equation}
 在本问题中，极大似然估计、最小化KL散度和最小化交叉熵等价。
 
-\subsection{熵、KL散度和交叉熵}
+\subsection{Entropy、KL divergence and Cross Entropy}
 \begin{itemize}
-    \item 熵:$H(X)=-\sum_i^n p(x_i)\log p(x_i)$，表示不确定程度，越不确定值越大
-    \item KL散度(相对熵): $D_{KL}(p_{\theta}||p_{\hat\theta}) = \sum_i^n p_{\theta}(x_i) \log {p_{\theta}(x_i)} - \sum_i^np_{\theta}(x_i) \log {p_{\hat\theta}(x_i)}$
-    \item 交叉熵: $CE(X) = - \sum_i^np_{\theta}(x_i) \log {p_{\hat\theta}(x_i)}$
+    \item Entropy : $H(X) = -\E_{x \sim P(x)}\log P(x)$，表示不确定程度，越不确定值越大
+    \item KL divergence : $D_{KL}(Q\|P) = \E_{x \sim P(x)}[\log P(x) - \log Q(x)]$
+    \item Cross Entropy : $CE(X) = - \E_{x \sim P(x)} Q(x)$
 \end{itemize}
-从定义里可以看出，当熵为常量时，KL散度和交叉熵等价。
+When entropy is constant, KL divergence is equivalent with cross entropy.
 
 \section{Maximum A Posteriori}
-$p(\boldsymbol{\theta})$先验概率分布，$p(\mathbf{X}|\boldsymbol{\theta})$是似然函数，根据贝叶斯定理，可用以下公式计算后验概率
+$P(\theta)$先验概率分布，$P(X|\theta)$是似然函数，根据贝叶斯定理，可用以下公式计算后验概率
 \begin{equation}
-    p(\boldsymbol{\theta} | \mathbf{X}) = \frac{p(\boldsymbol{\theta})p(\mathbf{X}|\boldsymbol{\theta})}{p(\mathbf{X})}
+    P(\theta|X) = \frac{p(X|\theta)P(\theta)}{p(X)}
 \end{equation}
-模型估计时，估计整个后验概率分布$p(\boldsymbol{\theta} | \mathbf{X})$，如需给出一个模型，通常取后验概率最大的模型。
+模型估计时，估计整个后验概率分布$P(\theta|X)$，如需给出一个模型，通常取后验概率最大的模型。
 \begin{equation}
     \begin{split}
-        \hat{\boldsymbol{\theta}}_{MAP} &= \arg \max p(\boldsymbol{\theta} | \mathbf{X}) \\
-        &= \arg \min -\log p(\boldsymbol{\theta} | \mathbf{X}) \\
-        &= \arg \min -\log p(\mathbf{X}|\boldsymbol{\theta}) - \log p(\boldsymbol{\theta}) + \log p(\mathbf{X}) \\
-        &= \arg \min -\log p(\mathbf{X}|\boldsymbol{\theta}) - \log p(\boldsymbol{\theta})
+        \hat{\theta}_{MAP} &= \arg \max P(\theta | X) \\
+        &= \arg \min -\log P(\theta | X) \\
+        &= \arg \min -\log P(X|\theta) - \log P(\theta) + \log P(X) \\
+        &= \arg \min -\log P(X|\theta) - \log P(\theta)
     \end{split}
 \end{equation}
-$\log p(\mathbf{X})$与$\theta$无关，可以丢掉。$-\log p(\mathbf{X}|\boldsymbol{\theta})$其实就是NLL，所以MLE和MAP不同在$- \log p(\boldsymbol{\theta})$。
+$\log P(X)$与$\theta$无关，可以丢掉。$-\log P(X|\theta)$其实就是NLL，所以MLE和MAP不同在$- \log P(\theta)$。
 假定先验是一个高斯分布
 \begin{equation}
-    p(\boldsymbol{\theta}) = C \times e^{-\frac{\theta^2}{2\sigma^2}}
+    P(\theta) = C \times e^{-\frac{\theta^2}{2\sigma^2}}
 \end{equation}
 那么
 \begin{equation}
-    -\log p(\boldsymbol{\theta}) = C + \frac{\theta^2}{2\sigma^2}
+    -\log P(\theta) = C + \frac{\theta^2}{2\sigma^2}
 \end{equation}
 
 在MAP中，使用一个高斯分布的先验等价于在MLE中采用$L^2$的正则化。MAP贝叶斯推断提供了一个直观的方法来设计复杂但可解释的
@@ -129,7 +122,7 @@ $\log p(\mathbf{X})$与$\theta$无关，可以丢掉。$-\log p(\mathbf{X}|\bold
 
 预测新的观察数据$x$时，计算数据对后验概率分布的期望值：
 \begin{equation}
-    p(x | \mathbf{X}) = \int p(x | \boldsymbol{\theta}, \mathbf{X})p(\boldsymbol{\theta}|\mathbf{X})\mathrm{d}\boldsymbol{\theta}
+    p(x|X) = \int p(x | \theta, X)p(\theta|X)\mathrm{d}\theta
 \end{equation}
 \section{Initialization scheme}
 \subsection{constant initialization}
@@ -138,7 +131,7 @@ $\log p(\mathbf{X})$与$\theta$无关，可以丢掉。$-\log p(\mathbf{X}|\bold
 按照某一分布随机初始化
 \subsubsection{normal initialization}
 \begin{equation}
-    W \sim N(\mu, \sigma^2)
+    W \sim \N(\mu, \sigma^2)
 \end{equation}
 
 \subsubsection{uniform initalization}
@@ -153,72 +146,72 @@ $\log p(\mathbf{X})$与$\theta$无关，可以丢掉。$-\log p(\mathbf{X}|\bold
 对于一个卷积层来说
 \begin{equation}
     \begin{split}
-        \mathbf{y}_l &= \mathbf{W}_l \mathbf{x}_l + \mathbf{b}_l\\
-        \mathbf{x}_l &= f(\mathbf{y}_{l-1})
+        y_l &= W_l X_l + b_l\\
+        X_l &= f(y_{l-1})
     \end{split}
 \end{equation}
 在如下前提和假设下
 \begin{itemize}
-    \item 初始化$\mathbf{W}_l$元素为独立同分布
-    \item 假设$\mathbf{x}_l$元素也为独立同分布
-    \item $\mathbf{w}_l$, $\mathbf{x}_l$互相独立
+    \item 初始化$W_l$元素为独立同分布
+    \item 假设$X_l$元素也为独立同分布
+    \item $W_l$, $X_l$互相独立
 \end{itemize}
 则有
 \begin{equation}
     \begin{split}
-        Var(\mathbf{y}_l) &= Var(\sum \mathbf{w}_l \mathbf{x}_l + \mathbf{b}_l)\\
-        &= Var(\sum \mathbf{w}_l \mathbf{x}_l) \\
-        &= n_l Var(\mathbf{w}_l \mathbf{x}_l)
+        Var(y_l) &= Var(\sum W_l X_l + b_l)\\
+        &= Var(\sum W_l X_l) \\
+        &= n_l Var(W_l X_l)
     \end{split}
 \end{equation}
-令$\mathbf{w}_l$期望为0，$E(\mathbf{w}_l) = 0, Var(\mathbf{w}_l) = E(\mathbf{w}_l - E(\mathbf{w}_l))^2 = E\mathbf{w}_l^2$，则
+令$W_l$期望为0，$E(W_l) = 0, Var(W_l) = E(W_l - E(W_l))^2 = EW_l^2$，则
 \begin{equation}
     \begin{split}
-        Var(\mathbf{y}_l) &= n_l E(\mathbf{w}_l^2\mathbf{x}_l^2) - n_l E^2\mathbf{w}_l E^2 \mathbf{x}_l \\
-        &= n_l E(\mathbf{w}_l^2\mathbf{x}_l^2) \\
-        &= n_l Var(\mathbf{w}_l)E(\mathbf{x}_l^2)
+        Var(y_l) &= n_l E(W_l^2X_l^2) - n_l E^2W_l E^2 X_l \\
+        &= n_l E(W_l^2X_l^2) \\
+        &= n_l Var(W_l)E(X_l^2)
     \end{split}
 \end{equation}
-若$E\mathbf{x}_l = 0$，则
+若$EX_l = 0$，则
 \begin{equation}
-    Var(\mathbf{y}_l) = n_l Var(\mathbf{w}_l)Var(\mathbf{x}_l)
+    Var(y_l) = n_l Var(W_l)Var(X_l)
 \end{equation}
 
-若要实现$Var(\mathbf{y}_l) = Var(\mathbf{x}_l)$，则需要满足$n_l Var(\mathbf{w}_l) = 1$，即
+若要实现$Var(y_l) = Var(X_l)$，则需要满足$n_l Var(W_l) = 1$，即
 \begin{equation}
-    Var(\mathbf{w}_l) = \frac{1}{n_l}
+    Var(W_l) = \frac{1}{n_l}
 \end{equation}
 
 \begin{itemize}
-    \item 若$\mathbf{w}_l$服从正态分布，则$\mathbf{w}_l \sim N(0, \frac{1}{n_l})$
-    \item 若$\mathbf{w}_l$服从均匀分布，则$\mathbf{w}_l \sim U(-\sqrt{\frac{3}{n_l}}, \sqrt{\frac{3}{n_l}})$
+    \item 若$W_l$服从正态分布，则$W_l \sim N(0, \frac{1}{n_l})$
+    \item 若$W_l$服从均匀分布，则$W_l \sim U(-\sqrt{\frac{3}{n_l}}, \sqrt{\frac{3}{n_l}})$
 \end{itemize}
 
 \subsubsection{Backword}
 反向传播过程中，需要保证梯度的方差不变，每一层的梯度为:
 \begin{equation}
-    \Delta \mathbf{x}_l = \hat{\mathbf{W}}_l \Delta \mathbf{y}_l
+    \Delta X_l = \hat{W}_l \Delta y_l
 \end{equation}
 假设
 \begin{itemize}
-    \item $\mathbf{w}_l$和$\Delta{\mathbf{y}}_l$互相独立
-    \item $E\mathbf{w}_l = 0, E\Delta{\mathbf{x}}_l = 0$
+    \item $W_l$和$\Delta{y}_l$互相独立
+    \item $EW_l = 0, E\Delta{X}_l = 0$
 \end{itemize}
 同前向传播，可得
 \begin{equation}
     \begin{split}
-        Var(\Delta{\mathbf{x}_l}) &= \hat n_l Var(\mathbf{w}_l)Var(\Delta{\mathbf{y}}_l)
+        Var(\Delta{X_l}) &= \hat n_l Var(W_l)Var(\Delta{y}_l)
     \end{split}
 \end{equation}
 \begin{itemize}
-    \item 若$\mathbf{w}_l$服从正态分布, 则$\mathbf{w}_l \sim N(0, \frac{1}{\hat n_l})$
-    \item 若$\mathbf{w}_l$服从均匀分布，则$\mathbf{w}_l \sim U(-\sqrt{\frac{3}{\hat n_l}}, \sqrt{\frac{3}{\hat n_l}})$
+    \item 若$W_l$服从正态分布, 则$W_l \sim N(0, \frac{1}{\hat n_l})$
+    \item 若$W_l$服从均匀分布，则$W_l \sim U(-\sqrt{\frac{3}{\hat n_l}}, \sqrt{\frac{3}{\hat n_l}})$
 \end{itemize}
 
-除非$n = \hat n_l$，否则同时保证信号在向前向后传播时的Var不变，取调和平均数，$Var(\mathbf{w}_l) = \frac{2}{n_l + \hat n_l}$，可得
+除非$n = \hat n_l$，否则同时保证信号在向前向后传播时的Var不变，取调和平均数，$Var(W_l) = \frac{2}{n_l + \hat n_l}$，可得
 \begin{itemize}
-    \item Normal distribution: $\mathbf{w}_l \sim N(0, \frac{2}{n_l + \hat n_l})$
-    \item Uniform distribution: $\mathbf{w}_l \sim U(-\sqrt{\frac{6}{n_l+\hat n_l}}, \sqrt{\frac{6}{n_l+\hat n_l}})$
+    \item Normal distribution: $W_l \sim \N(0, \frac{2}{n_l + \hat n_l})$
+    \item Uniform distribution: $W_l \sim \mathcal{U}(-\sqrt{\frac{6}{n_l+\hat n_l}}, \sqrt{\frac{6}{n_l+\hat n_l}})$
 \end{itemize}
 
 
@@ -228,11 +221,11 @@ $\log p(\mathbf{X})$与$\theta$无关，可以丢掉。$-\log p(\mathbf{X}|\bold
 Xavier 针对对称激活函数的层权重初始化进行设计，但对于使用ReLu激活函数的层并不适用\cite{He2015}。
 -> 期望为0， 方差为1
 \par
-对ReLU层来说，$E(\mathbf{x}_l^2) = \frac{1}{2}Var(\mathbf{y}_l)$，因此
+对ReLU层来说，$E(X_l^2) = \frac{1}{2}Var(y_l)$，因此
 \begin{equation}
     \begin{split}
-        Var(\mathbf{y}_l) &= \frac{1}{2} n_l Var(\mathbf{w}_l)Var(\mathbf{x}_l) \\
-        Var(\Delta{\mathbf{x}_l}) &= \frac{1}{2} \hat n_l Var(\mathbf{w}_l)Var(\Delta{\mathbf{y}}_l)
+        Var(y_l) &= \frac{1}{2} n_l Var(W_l)Var(X_l) \\
+        Var(\Delta{X_l}) &= \frac{1}{2} \hat n_l Var(W_l)Var(\Delta{y}_l)
     \end{split}
 \end{equation}
 且在权重初始化时，使用上述任意一个即可。

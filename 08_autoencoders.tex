@@ -18,17 +18,17 @@
 
 \subsection{稀疏自编码器}
 \begin{equation}
-    L(\mathbf{x}, g(f(\mathbf{x}))) + \Omega (h)
+    L(\vx, g(f(\vx))) + \Omega (h)
 \end{equation}
 \subsection{DAE - Denoising Autoencoder}
 \begin{equation}
-    L(\mathbf{x}, g(f(\tilde{\mathbf{x}})))
+    L(\vx, g(f(\tilde{\vx})))
 \end{equation}
 \subsection{CAE - Contractive Autoencoder}
 \begin{equation}
     \begin{split}
-        L(\mathbf{x}, g(f(\mathbf{x}))) + \Omega(\mathbf{h}, \mathbf{x}) \\
-        \Omega(\mathbf{h}, \mathbf{x}) = \lambda \sum_i \| \nabla_x h_i \|^2
+        L(\vx, g(f(\vx))) + \Omega(\vh, \vx) \\
+        \Omega(\vh, \vx) = \lambda \sum_i \| \nabla_x h_i \|^2
     \end{split}
 \end{equation}
 

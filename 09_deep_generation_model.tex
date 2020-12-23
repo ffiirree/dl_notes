@@ -1,26 +1,28 @@
-\chapter{Deep Generation Model}
+\chapter{Deep Generative Models}
+
+\section{Auto-Regressive Generative Models}
 
 \begin{itemize}
-    \item \textbf{Generative} models can capture the joint probability $p(X, Y)$, or just $p(X)$ if there are no labels
-    \item \textbf{Discriminative} models capture the conditional probability $p(Y|X)$
+    \item \textbf{Generative} models can capture the joint probability $P(X, Y)$, or just $P(x)$ if there are no labels
+    \item \textbf{Discriminative} models capture the conditional probability $P(Y|X)$
 \end{itemize}
 
-How can we generate new data instances? If we had the data distribution $p(X)$, we could just sample
+How can we generate new data instances? If we had the data distribution $P(x)$, we could just sample
 from it and then we would get all the instances.
 \begin{equation}
     \begin{split}
-        p(\mathbf{z}, \mathbf{x}) = p(\mathbf{z})p(\mathbf{x}|\mathbf{z}) = p(\mathbf{x})p(\mathbf{z}|\mathbf{x})
+        P(z, x) = P(z)p(x|z) = P(x)P(z|x)
     \end{split}
 \end{equation}
 \begin{equation}
     \begin{split}
-        p(\mathbf{z}|\mathbf{x}) = \frac{p(\mathbf{z}, \mathbf{x})}{p(\mathbf{x})}
-        = \frac{p(\mathbf{z})p(\mathbf{x}|\mathbf{z})}{p(\mathbf{x})}
+        P(z|x) = \frac{P(z, x)}{P(x)}
+        = \frac{P(z)p(x|z)}{P(x)}
     \end{split}
 \end{equation}
 \begin{equation}
     \begin{split}
-        p(\mathbf{x}) = \int p(\mathbf{z})p(\mathbf{x}|\mathbf{z})d \mathbf{x}
+        P(x) = \int P(z)p(x|z)dx
     \end{split}
 \end{equation}
 
@@ -29,15 +31,15 @@ from it and then we would get all the instances.
 
 \section{Variational Inference}
 
-Consider a joint density of latent variables $\mathbf{z}$ and observations $\mathbf{x}$
+Consider a joint density of latent variables $z$ and observations $x$
 \begin{equation}
-    p(\mathbf{z}, \mathbf{x}) = p(\mathbf{z})p(\mathbf{x}|\mathbf{z})
+    P(z, x) = P(z)P(x|z)
 \end{equation}
 
 In Bayesian models, the latent variables help govern the distribution of the data. A Bayesian
-model draws the latent variables from a \textbf{prior density $p(\mathbf{z})$} and then relates them to the
-observations through the \textbf{likelihood $p(\mathbf{x} | \mathbf{z})$}. Inference in a Bayesian model amounts to
-conditioning on data and computing the \textbf{posterior $p(\mathbf{z} | \mathbf{x})$}. In complex Bayesian models,
+model draws the latent variables from a \textbf{prior density $P(z)$} and then relates them to the
+observations through the \textbf{likelihood $P(x|z)$}. Inference in a Bayesian model amounts to
+conditioning on data and computing the \textbf{posterior $P(z|x)$}. In complex Bayesian models,
 this computation often requires approximate inference.
 
 The main idea behind variational inference is to use optimization. Variational inference thus turns the
@@ -46,25 +48,25 @@ First, we posit a family of approximate densities Q. This is a set of densities 
 variables. Then, we try to find the member of that family that minimizes the Kullback-Leibler
 (KL) divergence to the exact posterior,
 \begin{equation}
-    q^*(\mathbf{z}) = \arg \min_{q(\mathbf{z}) \in \mathcal{Q}} KL(q(\mathbf{z}) \| p(\mathbf{z}|\mathbf{x}))
+    Q^*(z) = \arg \min_{Q(z) \in \mathcal{Q}} KL(Q(z)\|P(z|x))
 \end{equation}
-Finally, we approximate the posterior with the optimized member of the family $q^*(\mathbf{z})$
+Finally, we approximate the posterior with the optimized member of the family $Q^*(z)$
 
 \begin{equation}
     \begin{split}
-        KL(q(\mathbf{z})\|p(\mathbf{z}|\mathbf{x}))
-        &= \mathbb{E}_{q(\mathbf{z})} [\log q(\mathbf{z})] - \mathbb{E}_{q(\mathbf{z})} [\log p(\mathbf{z}|\mathbf{x})] \\
-        &= \mathbb{E}_{q(\mathbf{z})} [\log q(\mathbf{z})] - \mathbb{E}_{q(\mathbf{z})} [\log p(\mathbf{z}, \mathbf{x})] + \mathbb{E}_{q(\mathbf{z})}[\log p(\mathbf{x})]\\
-        &= \mathbb{E}_{q(\mathbf{z})} [\log q(\mathbf{z})] - \mathbb{E}_{q(\mathbf{z})} [\log p(\mathbf{z}, \mathbf{x})] + \log p(\mathbf{x}) \\
+        KL(Q(z)\|P(z|x))
+        &= \E_{z \sim Q} [\log Q(z)] - \E_{z \sim Q} [\log P(z|x)] \\
+        &= \E_{z \sim Q} [\log Q(z)] - \E_{z \sim Q} [\log P(z, x)] + \E_{z \sim Q}[\log P(x)]\\
+        &= \E_{z \sim Q} [\log Q(z) - \log P(z, x)] + \log P(x) \\
         \\
-        \log p(\mathbf{x})
-        &= KL(q(\mathbf{z})\|p(\mathbf{z}|\mathbf{x})) + \mathbb{E}_{q(\mathbf{z})} [\log p(\mathbf{z}, \mathbf{x})] - \mathbb{E}_{q(\mathbf{z})} [\log q(\mathbf{z})]
+        \log P(x)
+        &= KL(Q(z)\|P(z|x)) + \E_{z \sim Q} [\log P(z, x) - \log Q(z)]
     \end{split}
 \end{equation}
 
-$\log p(\mathbf{x})$ is constant with respect to $q(\mathbf{z})$, $KL(\cdot ) \ge 0$, then
+$\log P(x)$ is constant with respect to $Q(z)$, $KL(\cdot ) \ge 0$, then
 \begin{equation}
-    ELBO(q) = \mathbb{E}_{q(\mathbf{z})} [\log p(\mathbf{z}, \mathbf{x})] - \mathbb{E}_{q(\mathbf{z})} [\log q(\mathbf{z})]\le \log p(\mathbf{x})
+    ELBO(Q) = \E_{z \sim Q} [\log P(z, x) - \log Q(z)] \le \log P(x)
 \end{equation}
 
 The function is call \textbf{evdience low bound(ELBO)}. Maximizing the ELBO is equivalent to
@@ -73,9 +75,9 @@ minimizing the KL divergence.
 \begin{equation}
     \begin{split}
         ELBO(q)
-        &= \mathbb{E}_{q(\mathbf{z})} [\log p(\mathbf{z}, \mathbf{x})] - \mathbb{E}_{q(\mathbf{z})} [\log q(\mathbf{z})] \\
-        &= \mathbb{E}_{q(\mathbf{z})} [\log p(\mathbf{z})] + \mathbb{E}_{q(\mathbf{z})} [\log p(\mathbf{x}|\mathbf{z})] - \mathbb{E}_{q(\mathbf{z})} [\log q(\mathbf{z})] \\
-        &= \mathbb{E}_{q(\mathbf{z})} [\log p(\mathbf{x} | \mathbf{z})] - KL(q(\mathbf{z})\|p(\mathbf{z}))
+        &= \E_{z \sim Q} [\log P(z, x)] - \E_{z \sim Q} [\log Q(z)] \\
+        &= \E_{z \sim Q} [\log P(z)] + \E_{z \sim Q} [\log p(x|z)] - \E_{z \sim Q} [\log Q(z)] \\
+        &= \E_{z \sim Q} [\log P(x|z)] - KL(Q(z)\|P(z))
     \end{split}
 \end{equation}
 
@@ -85,25 +87,25 @@ that explain the observed data. The second term is the negative
 divergence between the variational density and the prior; it encourages
 densities close to the prior.
 
-\subsection{Regularizer - Solution of $- KL(q(\mathbf{z})\|p(\mathbf{z}))$, Gaussion case}
+\subsection{Regularizer - Solution of $- KL(Q(z)\|P(z))$, Gaussion case}
 \begin{quotation}
     VAEs take an unusual approach to dealing with this problem: they assume that there is no simple interpretation
     of the dimensions of z, and instead assert that samples of z can be drawn from a simple distribution, i.e.,
-    $\mathcal{N}(0, I)$, where $I$ is the identity matrix. The key is to notice that any distribution in $d$ dimensions 
-    can be generated by taking a set of $d$ variables that are normally distributed and mapping them through a sufficiently 
+    $\N(0, I)$, where $I$ is the identity matrix. The key is to notice that any distribution in $d$ dimensions
+    can be generated by taking a set of $d$ variables that are normally distributed and mapping them through a sufficiently
     complicated function.
 \end{quotation}
 
-When both prior $p_{\mathbf{\theta}}(z) = N(0; I)$ and the posterior
+When both prior $p_{\theta}(z) = \N(0; I)$ and the posterior
 approximation $q_{\phi}(z|x^{(i)})$ are Gaussian. Let
-$J$ be the dimensionality of $\mathbf{z}$. Let $\mathbf{\mu}$ and $\mathbf{\sigma}$ denote the
+$J$ be the dimensionality of $z$. Let $\mu$ and $\sigma$ denote the
 variational mean and s.d. evaluated at datapoint $i$, and let $\mu_j$ and
 $\sigma_j$ simply denote the $j$-th element of these vectors. Then
 
 \begin{equation}
     \begin{split}
-        \int q_{\mathbf{\theta}}(\mathbf{z}) \log p(\mathbf{z}) d\mathbf{z}
-        &= \int \mathcal{N}(\mathbf{z}; \mathbf{\mu}, \mathbf{\sigma}^2) \log \mathcal{N}(\mathbf{z}; \mathbf{0}, \mathbf{I}) d \mathbf{z} \\
+        \int q_{\theta}(z) \log P(z) dz
+        &= \int \N(z; \mu, \sigma^2) \log \N(z; 0, I) dz \\
         &= -\frac{J}{2} \log (2\pi) -\frac{1}{2} \sum^J_{j=1}(\mu^2_j + \sigma^2_j)
     \end{split}
 \end{equation}
@@ -112,8 +114,8 @@ And:
 
 \begin{equation}
     \begin{split}
-        \int q_{\mathbf{\theta}}(\mathbf{z}) \log q_{\mathbf{\theta}}(\mathbf{z}) d \mathbf{z}
-        &= \int \mathcal{N}(\mathbf{z}; \mathbf{\mu}, \mathbf{\sigma}^2) \log \mathcal(N)(\mathbf{z}; \mathbf{\mu}, \mathbf{\sigma}^2) d\mathbf{z} \\
+        \int q_{\theta}(z) \log q_{\theta}(z) d z
+        &= \int \N(z; \mu, \sigma^2) \log \N(z; \mu, \sigma^2) dz \\
         &= -\frac{J}{2} \log (2\pi) - \frac{1}{2} \sum^J_{j=1}(1 + \log \sigma^2_j)
     \end{split}
 \end{equation}
@@ -122,33 +124,33 @@ Therefore:
 
 \begin{equation}
     \begin{split}
-        - KL(q(\mathbf{z})\|p(\mathbf{z})) = \frac{1}{2}\sum^J_{j=1}(1 + \log\sigma_j^2 - \mu_j^2 - \sigma_j^2)
+        - KL(Q(z)\|P(z)) = \frac{1}{2}\sum^J_{j=1}(1 + \log\sigma_j^2 - \mu_j^2 - \sigma_j^2)
     \end{split}
 \end{equation}
 
 
 \subsection{Reconstruction Error}
-The usual choice is to say that $q(z|x) = \mathcal{N}(z| \mu(x; \boldsymbol{\theta}), \Sigma(\mathbf{x}; \boldsymbol{\theta}))$,where
+The usual choice is to say that $q(z|x) = \N(z| \mu(x; \theta), \Sigma(x; \theta))$,where
 $\mu$ and $\Sigma$ are arbitrary deterministic functions with parameters $\theta$ that can be learned from data. In practice, $\mu$ and $\Sigma$
 are again implemented via neural networks, and $\Sigma$ is constrained to be a diagonal matrix.
 
 ELBO可以写为
 \begin{equation}
-    ELBO(\boldsymbol{\theta}, \phi, \mathbf{x}) 
-    = \mathbb{E}_{q_{\phi}(\mathbf{z}|\mathbf{x})} [\log p_{\boldsymbol{\theta}}(\mathbf{x} | \mathbf{z})] 
-        - KL(q_{\phi}(\mathbf{z}|\mathbf{x})\|p_{\boldsymbol{\theta}}(\mathbf{z}))
+    ELBO(\theta, \phi, x)
+    = \E_{q_{\phi}(z|x)} [\log p_{\theta}(x | z)]
+        - KL(q_{\phi}(z|x)\|p_{\theta}(z))
 \end{equation}
-We want to \textbf{differentiate} and optimize the lower bound $ELBO(\boldsymbol{\theta}, \phi, \mathbf{x})$ w.r.t both the variational
+We want to \textbf{differentiate} and optimize the lower bound $ELBO(\theta, \phi, x)$ w.r.t both the variational
 parameters $\phi$ and generativet parameters $\theta$.由于隐变量$z$从$q(z|x)$的采样过程不可微，所以需要改写成一个可微的形式.
-we can reparameterize the random variale $z \sim  q_{\phi}(z|x)$ using a differentiable transformation $g_{\phi}(\epsilon, x)$ of an 
+we can reparameterize the random variale $z \sim  q_{\phi}(z|x)$ using a differentiable transformation $g_{\phi}(\epsilon, x)$ of an
 (auxiliary) noise variable $\epsilon$
 \begin{equation}
-    \tilde{\mathbf{z}} = g_{\phi}(\boldsymbol{\epsilon}, \mathbf{x}) \quad with \quad \boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon})
+    \tilde{z} = g_{\phi}(\epsilon, x) \quad with \quad \epsilon \sim p(\epsilon)
 \end{equation}
 
 \subsection{Reparameterization trick}
-Given $\mu(\mathbf{x})$ and $\Sigma(\mathbf{x})$—the mean and covariance of $q(z|x)$ — we can sample from
-$\mathcal{N}(\mu(x), \Sigma(x))$ by first sampling $\epsilon \sim \mathcal{N}(0, I)$, then computing 
+Given $\mu(x)$ and $\Sigma(x)$—the mean and covariance of $q(z|x)$ — we can sample from
+$\N(\mu(x), \Sigma(x))$ by first sampling $\epsilon \sim \N(0, I)$, then computing
 $z = \mu(x) + \Sigma^{\frac{1}{2}}(x) * \epsilon$.
 
 \begin{figure}[H]
@@ -157,7 +159,10 @@ $z = \mu(x) + \Sigma^{\frac{1}{2}}(x) * \epsilon$.
     \label{fig:vae_reparameterization_trick}
 \end{figure}
 
-\section{VAE}
+\subsection{The mean-field variational family}
+\subsubsection{Bayesian mixture of Gaussians}
+
+\section{Variational Autoencoders}
 \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{images/vae.png}
@@ -229,12 +234,7 @@ distributions to be close to a standard normal distribution}
     \label{fig:regularised_distributions_vae}
 \end{figure}
 
-\subsection{}
-
-\subsection{贝叶斯混合高斯模型}
-
-
-\section{Generative Adversarial Nets}
+\section{Generative Adversarial Models}
 
 \subsection{Mode collapse}
 https://aiden.nibali.org/blog/2017-01-18-mode-collapse-gans/
@@ -243,7 +243,7 @@ https://aiden.nibali.org/blog/2017-01-18-mode-collapse-gans/
 https://vincentherrmann.github.io/blog/wasserstein/
 
 \subsection{vanila GAN}
-$z \sim p(z) -> p_{data}(x)$
+$z \sim P(z) -> p_{data}(x)$
 \begin{equation}
     \min_G \max_D V(D, G) = E_{\boldsymbol{x} \thicksim p_{data}(\boldsymbol{x})}[\log D(\boldsymbol{x})] + E_{\boldsymbol{z} \thicksim p_{\boldsymbol{z}}(\boldsymbol{z})}[\log (1 - D(G(\boldsymbol{z})))]
 \end{equation}
@@ -268,9 +268,9 @@ estimating the conditional probability $P(Y = y|\boldsymbol{x}), \boldsymbol{x} 
 \begin{equation}
     \begin{split}
         C(G) &= max_D V(G, D) \\
-        &= \mathbb{E}_{\boldsymbol{x} \thicksim p_{data}}[\log D_G^*(\boldsymbol{x})] + \mathbb{E}_{\boldsymbol{z} \thicksim p_{\boldsymbol{z}}}[\log(1 - D_G^*(G(\boldsymbol{z})))] \\
-        &= \mathbb{E}_{\boldsymbol{x} \thicksim p_{data}}[\log D_G^*(\boldsymbol{x})] + \mathbb{E}_{\boldsymbol{x} \thicksim p_{g}}[\log D_G^*(\boldsymbol{x})] \\
-        &= \mathbb{E}_{\boldsymbol{x} \thicksim p_{data}}[\log \frac{p_{data}(\boldsymbol{x})}{p_{data}(\boldsymbol{x}) + p_g(\boldsymbol{x})}] + \mathbb{E}_{\boldsymbol{x} \thicksim p_g}[\log \frac{p_g(\boldsymbol{x})}{p_{data}(\boldsymbol{x}) + p_g(\boldsymbol{x})}]
+        &= \E_{\boldsymbol{x} \thicksim p_{data}}[\log D_G^*(\boldsymbol{x})] + \E_{\boldsymbol{z} \thicksim p_{\boldsymbol{z}}}[\log(1 - D_G^*(G(\boldsymbol{z})))] \\
+        &= \E_{\boldsymbol{x} \thicksim p_{data}}[\log D_G^*(\boldsymbol{x})] + \E_{\boldsymbol{x} \thicksim p_{g}}[\log D_G^*(\boldsymbol{x})] \\
+        &= \E_{\boldsymbol{x} \thicksim p_{data}}[\log \frac{p_{data}(\boldsymbol{x})}{p_{data}(\boldsymbol{x}) + p_g(\boldsymbol{x})}] + \E_{\boldsymbol{x} \thicksim p_g}[\log \frac{p_g(\boldsymbol{x})}{p_{data}(\boldsymbol{x}) + p_g(\boldsymbol{x})}]
     \end{split}
 \end{equation}
 The global minimum of C(G) is achieved if and onl if $p_g = p_{data}$. and
