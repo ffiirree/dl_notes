@@ -1,0 +1,60 @@
+\chapter{Approximate Inference}
+
+\section{Monte Carlo Methods}
+
+\section{Variational Inference}
+Consider a joint density of latent variables $z$ and observations $x$
+\begin{equation}
+    P(z, x) = P(z)P(x|z)
+\end{equation}
+
+In Bayesian models, the latent variables help govern the distribution of the data. A Bayesian
+model draws the latent variables from a \textbf{prior density $P(z)$} and then relates them to the
+observations through the \textbf{likelihood $P(x|z)$}. Inference in a Bayesian model amounts to
+conditioning on data and computing the \textbf{posterior $P(z|x)$}. In complex Bayesian models,
+this computation often requires approximate inference.
+
+The main idea behind variational inference is to use optimization. Variational inference thus turns the
+inference problem into an optimization problem
+First, we posit a family of approximate densities Q. This is a set of densities over the latent
+variables. Then, we try to find the member of that family that minimizes the Kullback-Leibler
+(KL) divergence to the exact posterior,
+\begin{equation}
+    Q^*(z) = \arg \min_{Q(z) \in \mathcal{Q}} KL(Q(z)\|P(z|x))
+\end{equation}
+Finally, we approximate the posterior with the optimized member of the family $Q^*(z)$
+
+\begin{equation}
+    \begin{split}
+        KL(Q(z)\|P(z|x))
+        &= \E_{z \sim Q} [\log Q(z)] - \E_{z \sim Q} [\log P(z|x)] \\
+        &= \E_{z \sim Q} [\log Q(z)] - \E_{z \sim Q} [\log P(z, x)] + \E_{z \sim Q}[\log P(x)]\\
+        &= \E_{z \sim Q} [\log Q(z) - \log P(z, x)] + \log P(x) \\
+        \\
+        \log P(x)
+        &= KL(Q(z)\|P(z|x)) + \E_{z \sim Q} [\log P(z, x) - \log Q(z)]
+    \end{split}
+\end{equation}
+
+$\log P(x)$ is constant with respect to $Q(z)$, $KL(\cdot ) \ge 0$, then
+\begin{equation}
+    ELBO(Q) = \E_{z \sim Q} [\log P(z, x) - \log Q(z)] \le \log P(x)
+\end{equation}
+
+The function is call \textbf{evdience low bound(ELBO)}. Maximizing the ELBO is equivalent to
+minimizing the KL divergence.
+
+\begin{equation}
+    \begin{split}
+        ELBO(q)
+        &= \E_{z \sim Q} [\log P(z, x)] - \E_{z \sim Q} [\log Q(z)] \\
+        &= \E_{z \sim Q} [\log P(z)] + \E_{z \sim Q} [\log p(x|z)] - \E_{z \sim Q} [\log Q(z)] \\
+        &= \E_{z \sim Q} [\log P(x|z)] - KL(Q(z)\|P(z))
+    \end{split}
+\end{equation}
+
+The first termis an expected likelihood; it encourages densities
+that place their mass on configurations of the latent variables
+that explain the observed data. The second term is the negative
+divergence between the variational density and the prior; it encourages
+densities close to the prior.

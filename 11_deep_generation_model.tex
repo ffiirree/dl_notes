@@ -1,0 +1,275 @@
+\chapter{Deep Generative Models}
+
+\begin{itemize}
+    \item \textbf{Generative} models can capture the joint probability $P(X, Y)$, or just $P(x)$ if there are no labels
+    \item \textbf{Discriminative} models capture the conditional probability $P(Y|X)$
+\end{itemize}
+
+How can we generate new data instances? If we had the data distribution $P(x)$, we could just sample
+from it and then we would get all the instances.
+\begin{equation}
+    \begin{split}
+        P(z, x) = P(z)p(x|z) = P(x)P(z|x)
+    \end{split}
+\end{equation}
+\begin{equation}
+    \begin{split}
+        P(z|x) = \frac{P(z, x)}{P(x)}
+        = \frac{P(z)p(x|z)}{P(x)}
+    \end{split}
+\end{equation}
+\begin{equation}
+    \begin{split}
+        P(x) = \int P(z)p(x|z)dx
+    \end{split}
+\end{equation}
+
+\section{Auto-Regressive Generative Models}
+PixelRNNs and PixelCNNs model the joint distribution of pixels over an image $x$ as the following
+product of conditional distributions.
+\begin{equation}
+    P(x) = \prod^{n^2}_{i=1}P(x_{i}|x_1,...,x_{i-1}) 
+\end{equation}
+
+\section{Variational Autoencoders}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{images/vae.png}
+    \caption{vae}
+    \label{fig:VAE}
+\end{figure}
+\subsection{为什么需要VAE？为什么不直接使用Autoencoder的decoder来生成图片？}
+
+Autoencoder的encoder生成的latent space不够regurlarity(不连续)，我们无法从latent space的中随机采样来生成或修改图片
+\begin{quotation}
+    the lack of interpretable and exploitable structures in the latent space (\textbf{lack of regularity}).
+    the regularity of the latent space for autoencoders is a difficult point that depends on the distribution of the data in the initial space, the dimension of the latent space and the architecture of the encoder. So, it is pretty difficult (if not impossible) to ensure, a priori, that the encoder will organize the latent space in a smart way compatible with the generative process we just described.
+\end{quotation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{images/mnist_ae_latent_space.png}
+    \caption{the encodings from a 2D latent space / MNIST}
+    \label{fig:mnist_ae_latent_space}
+\end{figure}
+
+\subsection{VAE}
+\begin{quotation}
+    a variational autoencoder can be defined as being an autoencoder whose training is
+    regularised to avoid overfitting and ensure that the latent space has good properties
+     that enable generative process.
+\end{quotation}
+VAE模型需要符合以下条件
+\begin{itemize}
+    \item the input is \textbf{encoded as distribution} over the latent space, instead of encoding an input as a single point
+    \item a point from the latent space is sampled from that distribution
+    \item the sampled point is decoded and the reconstruction error can be computed
+    \item the reconstruction error is backpropagated through the network
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{images/ae_vae.png}
+    \label{fig:AEvsVAE}
+\end{figure}
+
+Latent space应该具有以下的性质
+\begin{itemize}
+    \item \textbf{Continuity} two close points in the latent space should not give two completely different contents once decoded
+    \item \textbf{Completeness} for a chosen distribution, a point sampled from the latent space should give “meaningful” content once decoded
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{images/irregular_latent_space.png}
+    \label{fig:irregular_latent_space}
+\end{figure}
+The only fact that VAEs encode inputs as distributions instead of simple points is
+not sufficient to ensure continuity and completeness. Without a well defined
+regularisation term, the model can learn, in order to minimise its reconstruction
+error, to “ignore” the fact that distributions are returned and behave almost like
+classic autoencoders (leading to overfitting). To do so, the encoder can either return
+distributions with tiny variances (that would tend to be punctual distributions(点分布)) or return
+distributions with very different means (that would then be really far apart from each other
+in the latent space).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{images/regularised_distributions_vae.png}
+    \label{fig:regularised_distributions_vae}
+\end{figure}
+we have to regularise both the covariance matrix and the mean of the distributions
+returned by the encoder. In practice, this regularisation is done by \textbf{enforcing
+distributions to be close to a standard normal distribution}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{images/vae_regularisation.png}
+    \label{fig:regularised_distributions_vae}
+\end{figure}
+
+\subsection{Variational Inference}
+\begin{equation}
+    Q^*(z) = \arg \min_{Q(z) \in \mathcal{Q}} KL(Q(z)\|P(z|x))
+\end{equation}
+
+Finally, we approximate the posterior with the optimized member of the family $Q^*(z)$. That is equivalent to ELBO:
+
+\begin{equation}
+    \mathcal{L} = \E_{z \sim Q} [\log P(x|z)] - KL(Q(z)\|P(z))
+\end{equation}
+
+\subsection{Regularizer - Solution of $- KL(Q(z)\|P(z))$, Gaussion case}
+\begin{quotation}
+    VAEs take an unusual approach to dealing with this problem: they assume that there is no simple interpretation
+    of the dimensions of z, and instead assert that samples of z can be drawn from a simple distribution, i.e.,
+    $\N(0, I)$, where $I$ is the identity matrix. The key is to notice that any distribution in $d$ dimensions
+    can be generated by taking a set of $d$ variables that are normally distributed and mapping them through a sufficiently
+    complicated function.
+\end{quotation}
+
+When both prior $p_{\theta}(z) = \N(0; I)$ and the posterior
+approximation $q_{\phi}(z|x^{(i)})$ are Gaussian. Let
+$J$ be the dimensionality of $z$. Let $\mu$ and $\sigma$ denote the
+variational mean and s.d. evaluated at datapoint $i$, and let $\mu_j$ and
+$\sigma_j$ simply denote the $j$-th element of these vectors. Then
+
+\begin{equation}
+    \begin{split}
+        \int q_{\theta}(z) \log P(z) dz
+        &= \int \N(z; \mu, \sigma^2) \log \N(z; 0, I) dz \\
+        &= -\frac{J}{2} \log (2\pi) -\frac{1}{2} \sum^J_{j=1}(\mu^2_j + \sigma^2_j)
+    \end{split}
+\end{equation}
+
+And:
+
+\begin{equation}
+    \begin{split}
+        \int q_{\theta}(z) \log q_{\theta}(z) d z
+        &= \int \N(z; \mu, \sigma^2) \log \N(z; \mu, \sigma^2) dz \\
+        &= -\frac{J}{2} \log (2\pi) - \frac{1}{2} \sum^J_{j=1}(1 + \log \sigma^2_j)
+    \end{split}
+\end{equation}
+
+Therefore:
+
+\begin{equation}
+    \begin{split}
+        - KL(Q(z)\|P(z)) = \frac{1}{2}\sum^J_{j=1}(1 + \log\sigma_j^2 - \mu_j^2 - \sigma_j^2)
+    \end{split}
+\end{equation}
+
+
+\subsection{Reconstruction Error}
+The usual choice is to say that $q(z|x) = \N(z| \mu(x; \theta), \Sigma(x; \theta))$,where
+$\mu$ and $\Sigma$ are arbitrary deterministic functions with parameters $\theta$ that can be learned from data. In practice, $\mu$ and $\Sigma$
+are again implemented via neural networks, and $\Sigma$ is constrained to be a diagonal matrix.
+
+ELBO可以写为
+\begin{equation}
+    ELBO(\theta, \phi, x)
+    = \E_{q_{\phi}(z|x)} [\log p_{\theta}(x | z)]
+        - KL(q_{\phi}(z|x)\|p_{\theta}(z))
+\end{equation}
+We want to \textbf{differentiate} and optimize the lower bound $ELBO(\theta, \phi, x)$ w.r.t both the variational
+parameters $\phi$ and generativet parameters $\theta$.由于隐变量$z$从$q(z|x)$的采样过程不可微，所以需要改写成一个可微的形式.
+we can reparameterize the random variale $z \sim  q_{\phi}(z|x)$ using a differentiable transformation $g_{\phi}(\epsilon, x)$ of an
+(auxiliary) noise variable $\epsilon$
+\begin{equation}
+    \tilde{z} = g_{\phi}(\epsilon, x) \quad with \quad \epsilon \sim p(\epsilon)
+\end{equation}
+
+\subsection{Reparameterization trick}
+Given $\mu(x)$ and $\Sigma(x)$—the mean and covariance of $q(z|x)$ — we can sample from
+$\N(\mu(x), \Sigma(x))$ by first sampling $\epsilon \sim \N(0, I)$, then computing
+$z = \mu(x) + \Sigma^{\frac{1}{2}}(x) * \epsilon$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{images/vae_reparameterization_trick.png}
+    \label{fig:vae_reparameterization_trick}
+\end{figure}
+
+\subsection{The mean-field variational family}
+\subsubsection{Bayesian mixture of Gaussians}
+
+
+\section{Generative Adversarial Models}
+
+\subsection{Mode collapse}
+https://aiden.nibali.org/blog/2017-01-18-mode-collapse-gans/
+
+\subsection{Wasserstein GAN and the Kantorovich-Rubinstein Duality}
+https://vincentherrmann.github.io/blog/wasserstein/
+
+\subsection{vanilla GAN}
+D and G play the following two-player minimax game with value function $V(G,D)$:
+\begin{equation}
+    \min_G \max_D V(D, G)
+    = \E_{x \sim P(x)}[\log D(x)] + \E_{z \sim P(z)}[\log (1 - D(G(z)))]
+\end{equation}
+
+\textbf{The training criterion for the discriminator D, given any generator G, is to maximize the
+quantity $V(G, D)$}
+\begin{equation}
+    \begin{split}
+        V(G, D) 
+        &= \E_{x \sim P(x)}[\log D(x)] + \E_{z \sim P(z)}[\log (1 - D(G(z)))] \\
+        &= \E_{x \sim P_d(x)}[\log D(x)] + \E_{x \sim P_g(x)}[\log (1 - D(x))]
+    \end{split}
+\end{equation}
+
+For any $(a, b) \in \mathbb{R}^2 \backslash \{0, 0\}$, the function $ y \to a\log(y) + b\log(1 - y)$
+achieves its maximum in [0, 1] at $\frac{a}{a + b}$.
+So, for G fixed, the optimal discriminator D is
+\begin{equation}
+    D_{G}^{*}(x) = \frac{P_d(x)}{P_d(x) + P_g(x)}
+\end{equation}
+
+Note that the training objective for D can be interpreted as maximizing the log-likelihood for
+estimating the conditional probability $P(Y = y|x), x \in P_d or \in P_g$, then
+\begin{equation}
+    \begin{split}
+        C(G) &= max_D V(G, D) \\
+        &= \E_{x \sim P_d(x)}[\log D_G^*(x)] + \E_{z \sim P(z)}[\log(1 - D_G^*(G(z)))] \\
+        &= \E_{x \sim P_d(x)}[\log D_G^*(x)] + \E_{x \sim P_g(x)}[\log D_G^*(x)] \\
+        &= \E_{x \sim P_d(x)}[\log \frac{P_d(x)}{P_d(x) + P_g(x)}] + \E_{x \sim P_g(x)}[\log \frac{P_g(x)}{P_d(x) + P_g(x)}]
+    \end{split}
+\end{equation}
+
+\textbf{The global minimum of C(G) is achieved if and onl if $P_g = P_d$.} And
+\begin{equation}
+    C(G) = - \log 4
+\end{equation}
+and that by substracting this expression from $C(G) = V(D_G^*, G)$, we abtain:
+\begin{equation}
+    \begin{split}
+        C(G) &= -log(4) + KL(P_d\| \frac{P_d + P_g}{2}) + KL(P_g \| \frac{P_d + P_g}{2}) \\
+        &= -2\log(2) + 2JSD(P_d\|P_g)
+    \end{split}
+\end{equation}
+在D最优的情况下，等价于优化JSD
+
+\subsection{Latent space}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{images/cgan_acgan.png}
+    \label{fig:CGAN2ACGAN}
+\end{figure}
+\subsubsection{Conditional GAN}
+使用辅助信息——label，将label和image绑定，分别输入到D和G中，
+\begin{equation}
+    \min_G \max_D V(D, G) = \E_{x \sim P_d(x)}[\log D(x|y)] + \E_{z \sim P_{z}(z)}[\log (1 - D(G(z|y)))]
+\end{equation}
+
+\textbf{可以使用标签控制生成指定类型的图片}
+\subsubsection{Semi-Supervised GAN}
+
+
+\subsubsection{InfoGAN}
+\begin{equation}
+    \min_G \max_D V_I(D, G) = V(D, G) - \lambda I(c; G(z,c))
+\end{equation}
+
+\subsubsection{ACGAN}
+
+\subsection{Architecture}
+
+\subsection{Object functions}
+
