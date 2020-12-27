@@ -7,8 +7,8 @@
 Residual unit表示如下:
 \begin{equation}
     \begin{split}
-        \\vy_l &= h(\vx_l) + \mathcal{F}(\vx_l, \mathcal{W}_l) \\
-        \vx_{l+1} &= f(\\vy_l)
+        \vy_l &= h(\vx_l) + \mathcal{F}(\vx_l, \mathcal{W}_l) \\
+        \vx_{l+1} &= f(\vy_l)
     \end{split}
 \end{equation}
 In ResNet，$h(\vx_) = \vx_l$ is an identity mapping and $f$ is a ReLU function.
@@ -17,7 +17,7 @@ In ResNet，$h(\vx_) = \vx_l$ is an identity mapping and $f$ is a ReLU function.
 In \cite{He2016identity}，希望\textit{propagating information}可以\textit{through theentire network}.
 \begin{quotation}
     Our derivations reveal that \textit{if both $h(\vx_l)$ and
-$f(\\vy_l)$ are identity mappings}, the signal could be \textit{directly}
+$f(\vy_l)$ are identity mappings}, the signal could be \textit{directly}
 propagated from one unit to any other units, in both forward and backward passes.\cite{He2016identity}
 \end{quotation}
 

@@ -2,17 +2,17 @@
 
 \section{Frequentist statistics VS Bayesian statistics}
 \begin{quotation}
-Throughout our subsequent discussions, we viewed $\theta$ as an unknown parameter of the world. 
+Throughout our subsequent discussions, we viewed $\theta$ as an unknown parameter of the world.
 This view of the $\theta$ as being constant-valued but unknown is taken in frequentist statistics.
-In the frequentist this view of the world, $\theta$ is not random—it just happens to be unknown—and 
-it's our job to come up with statistical procedures (such as maximum likelihood) to try to estimate 
-this parameter. 
+In the frequentist this view of the world, $\theta$ is not random—it just happens to be unknown—and
+it's our job to come up with statistical procedures (such as maximum likelihood) to try to estimate
+this parameter.
 
-An alternative way to approach our parameter estimation problems is to take 
-the Bayesian view of the world, and think of $\theta$ as being a random variable whose value is 
-unknown. In this approach, we would specify a prior distribution $p(\theta)$ on $\theta$ that 
-expresses our "prior beliefs" about the parameters. Given a training set $S = {(x_i, y_i)}$, 
-make a prediction on a new value of x, we can then compute the posterior distribution on 
+An alternative way to approach our parameter estimation problems is to take
+the Bayesian view of the world, and think of $\theta$ as being a random variable whose value is
+unknown. In this approach, we would specify a prior distribution $p(\theta)$ on $\theta$ that
+expresses our "prior beliefs" about the parameters. Given a training set $S = {(x_i, y_i)}$,
+make a prediction on a new value of x, we can then compute the posterior distribution on
 the parameters.(CS229)
 \end{quotation}
 
@@ -47,3 +47,195 @@ the parameters.(CS229)
 
 
 \section{最小方差无偏估计}
+
+
+\section{Divergence}
+In statistics and information geometry, \textbf{divergence} or a \textbf{contrast function} is a function
+which establishes the "distance" of one probability distribution to the other on a statistical manifold.
+The divergence is a weaker notion than that of the distance, \textit{in particular the divergence need not be symmetric},
+and need not satisfy the triangle inequality. [\href{https://en.wikipedia.org/wiki/Divergence_(statistics)}{Wikipedia: Divergence (statistics)}]
+
+Suppose $\mathcal{S}$ is a space of all probability distributions with common support.
+Then a divergence on $\mathcal{S}$ is a function $D(\cdot\|\cdot): \mathcal{S} \times \mathcal{S} \rightarrow R$ satisfying
+\begin{equation}
+    \begin{split}
+        D(p\|q) &\geq 0 \text{ for all }p, q \in S, \\
+        D(p\|q) &= 0\text{ if and only if }p = q,
+    \end{split}
+\end{equation}
+
+The two most important divergences are the \textbf{KL divergence} (relative entropy), which is central to information theory
+and statistics, and the \textbf{squared Euclidean distance} (SED).
+
+The two most important classes of divergences are the \textbf{$f$-divergences} and \textbf{Bregman divergences};
+The only divergence that is both an $f$-divergence and a Bregman divergence is the KL divergence;
+the SED is a Bregman divergence, but not an $f$-divergence.
+
+\subsection{$f$-divergence}
+An \textbf{$f$-divergence} is a function $D_f(P\|Q)$ that measures the difference between two probability
+distributions $P$ and $Q$. It helps the intuition to think of the divergence as an average, weighted by the
+function $f$, of the odds ratio given by $P$ and $Q$. [\href{https://en.wikipedia.org/wiki/F-divergence}{Wikipedia: $f$-divergence}]
+
+\subsubsection{Definition}
+Let $P$ and $Q$ be two probability over a space $\Omega$ such that $P$ is absolutely continuous with respect to
+$Q$. Then, for a convex function $f$ such that $f(1)=0$, the $f$-divergence of $P$ from $Q$ is defined as
+\begin{equation}
+    D_f(P\|Q) = \int_{\Omega}f\left(\frac{\d P}{\d Q}\right) \d Q
+\end{equation}
+If $P$ and $Q$ are both absolutely continuous with respect to a reference distribution $\mu$ on $\Omega$ then their
+probability densities $p$ and $q$ satisfy $\d P = p \d \mu$ and $\d Q = q \d \mu$. In this case the $f$-divergence can
+be written as
+\begin{equation}
+    D_f(P\|Q) = \int_{\Omega} f\left(\frac{p(x)}{q(x)}\right) q(x) \d \mu(x)
+\end{equation}
+
+\subsubsection{Instances of $f$-divergences}
+
+\begin{center}
+    \begin{tabular}{cc}
+        \toprule
+        Divergence & $f(\cdot)$ \\
+        \midrule
+        KL-divergence & $t\log{t}$ \\
+        reverse KL-Divergence & $-\log{t}$ \\
+        Jensen-Shannon Divergence & $(t+1)\log(\frac{2}{t+1}) + t\log t$ \\
+        squared Hellinger distance & $(\sqrt{t} - 1)^2, 2(1 - \sqrt{t})$ \\
+        Total variation distance & $\frac{1}{2}|t-1|$ \\
+        Pearson $\mathcal{X}^2$-divergence & $(t-1)^2, t^2 - 1, t^2 - t$ \\
+        Neyman $\mathcal{X}^2$-divergence(reverse Pearson) & $\frac{1}{t} - 1, \frac{1}{t} - t$ \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\subsubsection{Properties}
+\begin{itemize}
+    \item \textbf{Non-negativity} : the $f$-divergence is always positive; it's zero if and only if
+    the measures $P$ and $Q$ coincide. This follows immediately from Jensen's inequlity:
+    \begin{equation}
+        D_f(P\|Q) = \int f \left(\frac{\d P}{\d Q}\right) \d Q \geq f\left(\frac{\d P}{\d Q} \d Q\right) = f(1) = 0
+    \end{equation}
+    \item \textbf{Monotonicity}
+    \item \textbf{Joint Convexity}
+\end{itemize}
+
+\subsection{Kullback–Leibler divergence / Relative entropy}
+KLD  is a measure of how one probability distribution is different from a second, reference probability distribution.
+
+Consider two probability distribution $P$ and $Q$. Usually, $P$ reresents the data, the observations, or a probability
+distribution precisely measured. $Q$ represnts instead a theory, a model, a description or an approximation of $P$.
+The KL divergence is then interperted as the average difference of the number of bits required for encoding samples of $P$
+using a code optimized for $Q$ rather than one optimized for $P$
+
+\subsubsection{Definition}
+\begin{equation}
+    \begin{split}
+        D_{KL}(P\|Q)
+        &= \E_{x \sim P(x)}[\log \frac{P(x)}{Q(x)}] \\
+        &= \E_{x \sim P(x)} [\log P(x) - \log Q(x)]
+    \end{split}
+\end{equation}
+
+\section{Entropy}
+\subsection{Informational value}
+The basic idea of information theory is that the "informational value" of a communicated message depends on the
+degree to which the content of the message is surprising. If an event is very probable, it is no surprise
+when that event happens as expected; hence transmission of such a message carries very little new information.
+However, if an event is unlikely to occur, it is much more informative to learn that the event happened or will happen.
+
+The information content (also called the surprisal) of an event $E$ is a function which decreases the probability $p(E)$
+of an event increases, defined by $I(E) = - \log p(E)$.
+
+\subsection{Entropy}
+
+In information theory, the entropy of a random variable is the average level of "information", "surprise", or "uncertainty" inherent in the variable's possible outcomes.
+\begin{equation}
+    H(x) = -\E[\log P(x)]
+\end{equation}
+
+\subsection{Cross Entropy}
+The cross entropy between two probability distributions measures the average number of bits needed to identify an
+event from a set of possibilities, if a coding scheme is used based on a given probability distribution $Q$, rather
+than the "true" distribution $P$. The cross entropy for two distributions $P$ and $Q$ over the same probability
+space is thus defined as follows
+\begin{equation}
+    H(P, Q) = \E_{x \sim P(x)}[- \log Q(x)] = H(P(x)) + KL(P(x)\|Q(x))
+\end{equation}
+When $H(P)$ is constant, minimizing the $H(P, Q)$ is equivalent to minimizing the KL divergence $KL(P\|Q)$.
+
+\subsection{Conditional Entropy}
+In information theory, the conditional entropy quantifies the amount of information needed to describe the outcome of a random variable
+$Y$ given that the value of another random variable $X$ is known.
+\begin{equation}
+    H(Y|X) = -\sum P(x, y) \log \frac{P(x, y)}{P(x)}
+\end{equation}
+
+\section{Mutual Information}
+In probability theory and information theory, the mutual information (MI) of two random variables is a
+measure of the \textbf{mutual dependence between the two variables}. More specifically, it quantifies the "amount of information"
+obtained about one random variable through observing the other random variable. The concept of mutual information is
+intimately linked to that of entropy of a random variable, a fundamental notion in information theory that quantifies
+the expected "amount of information" held in a random variable.
+\begin{equation}
+    \begin{split}
+        I(X;Y)
+        &= KL(P(X,Y)\|P(X)P(Y)) \\
+        &= \E_x[KL(P(Y|X)\|P(Y))] \\
+        &= \E_y[KL(P(X|Y)\|P(X))] \\
+        &= H(X) - H(X|Y) \\
+        &= H(Y) - H(Y|X) \\
+        &= H(X) + H(Y) - H(X, Y) \\
+        &= H(X, Y) - H(X|Y) - H(Y|X) \\
+        &= \sum_y\sum_x P(x, y) \log \frac{P(x, y)}{P(x)P(y)}
+    \end{split}
+\end{equation}
+
+
+\section{Maximum likelihood estimation}
+\textbf{Frequentist statistics}
+
+深度学习来就是用模型$Q(x;\theta)$来估计数据的真实分布$P(x;\theta)$，对于一组确定的数据集$X$，在样本已被观察到的情况下，需要找到使得$Q(X; \theta)$出现可能性最大的一组参数$\theta$，也就是
+最大似然估计:
+\begin{equation}
+    \begin{split}
+        \hat{\theta}_{MLE}
+        &= \arg \max_\theta Q(X, \theta) \\
+        &= \arg \max_{\theta} \prod _{i=1}^m Q(x^i; \theta) \\
+        &\Rightarrow \arg \max_{\theta} \sum_{i=0}^m \log Q(x^i; \theta) \\
+        &\Rightarrow \arg \min_{\theta} - \sum_{i=0}^m \log Q(x^i; \theta) \\
+        &\Rightarrow \arg \min_{\theta} - \E _{x \sim P} \log Q(x^i; \theta)
+    \end{split}
+\end{equation}
+
+
+\section{Maximum A Posteriori}
+$P(\theta)$先验概率分布，$P(X|\theta)$是似然函数，根据贝叶斯定理，可用以下公式计算后验概率
+\begin{equation}
+    P(\theta|X) = \frac{P(X|\theta)P(\theta)}{P(X)}
+\end{equation}
+模型估计时，估计整个后验概率分布$P(\theta|X)$，如需给出一个模型，通常取后验概率最大的模型。
+\begin{equation}
+    \begin{split}
+        \hat{\theta}_{MAP} &= \arg \max P(\theta | X) \\
+        &= \arg \min -\log P(\theta | X) \\
+        &= \arg \min -\log P(X|\theta) - \log P(\theta) + \log P(X) \\
+        &= \arg \min -\log P(X|\theta) - \log P(\theta)
+    \end{split}
+\end{equation}
+$\log P(X)$与$\theta$无关，可以丢掉。$-\log P(X|\theta)$其实就是NLL，所以MLE和MAP不同在$- \log P(\theta)$。
+假定先验是一个高斯分布
+\begin{equation}
+    P(\theta) = C \times e^{-\frac{\theta^2}{2\sigma^2}}
+\end{equation}
+那么
+\begin{equation}
+    -\log P(\theta) = C + \frac{\theta^2}{2\sigma^2}
+\end{equation}
+
+在MAP中，使用一个高斯分布的先验等价于在MLE中采用$L^2$的正则化。MAP贝叶斯推断提供了一个直观的方法来设计复杂但可解释的
+正则化，更复杂的惩罚项可以通过混合高斯分布作为先验得到，而不是一个单独的高斯分布。
+
+
+预测新的观察数据$x$时，计算数据对后验概率分布的期望值：
+\begin{equation}
+    p(x|X) = \int p(x | \theta, X)p(\theta|X)\mathrm{d}\theta
+\end{equation}

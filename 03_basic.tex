@@ -29,101 +29,6 @@
 \end{quotation}
 \par万能近似定理最初以sigmoidal激活函数来描述，后被证明对于更广泛的激活函数也适用\cite{Leshno1993}，包括ReLU。
 
-\section{$f$-divergence}
-\begin{tabular}{cc}
-\toprule
-Divergence & f \\
-\midrule
-KLD & $t\log{t}$ \\
-reverse KLD & $-\log{t}$ \\
-squared Hellinger distance & $(\sqrt{t} - 1)^2, 2(1 - \sqrt{t})$ \\
-\bottomrule
-\end{tabular}
-
-\section{Maximum likelihood estimation}
-\textbf{Frequentist statistics}
-
-深度学习来就是用模型$Q(x;\theta)$来估计数据的真实分布$P(x;\theta)$，对于一组确定的数据集$X$，在样本已被观察到的情况下，需要找到使得$Q(X; \theta)$出现可能性最大的一组参数$\theta$，也就是
-最大似然估计:
-\begin{equation}
-    \begin{split}
-        \hat{\theta}_{MLE} &= \arg \max_\theta Q(X, \theta) \\
-        &= \arg \max_{\theta} \prod _{i=1}^m Q(x^i; \theta)
-    \end{split}
-\end{equation}
-等价于
-\begin{equation}
-    \begin{split}
-        \hat{\theta}_{MLE} &= \arg \max_{\theta} \sum_{i=0}^m \log Q(x^i; \theta) \\
-        &= \arg \min_{\theta} - \sum_{i=0}^m \log Q(x^i; \theta)
-    \end{split}
-\end{equation}
-第二行的优化函数也被称为Negative Log Likelihood(NLL)
-
-
-除$m$，等价于
-\begin{equation}
-    \begin{split}
-        \hat{\theta}_{MLE} &= \arg \max_{\theta} E _{x \sim P} \log Q(x^i; \theta)
-    \end{split}
-\end{equation}
-
-\subsection{KL divergence}
-KL散度用来衡量两种分布之间的差异，
-\begin{equation}
-    \begin{split}
-        D_{KL}(P\|Q)
-        &= \E_{x \sim P(x)}[\log \frac{P(x)}{Q(x)}] \\
-        &= \E_{x \sim P(x)} \log P(x) - \E_{x \sim P(x)} \log Q(x)
-    \end{split}
-\end{equation}
-
-若$P(x)$为数据分布，$Q(x)$为模型学习的分布，则$P(x)$与模型无关，其中$\E_{x \sim P(x)} P(x)$为常量，则问题转换为
-\begin{equation}
-    \arg \min D_{KL}(P\|Q) = \arg \min - \E_{x \sim P(x)} Q(x)
-\end{equation}
-在本问题中，极大似然估计、最小化KL散度和最小化交叉熵等价。
-
-\subsection{Entropy、KL divergence and Cross Entropy}
-\begin{itemize}
-    \item Entropy : $H(X) = -\E_{x \sim P(x)}\log P(x)$，表示不确定程度，越不确定值越大
-    \item KL divergence : $D_{KL}(Q\|P) = \E_{x \sim P(x)}[\log P(x) - \log Q(x)]$
-    \item Cross Entropy : $CE(X) = - \E_{x \sim P(x)} Q(x)$
-\end{itemize}
-When entropy is constant, KL divergence is equivalent with cross entropy.
-
-\section{Maximum A Posteriori}
-$P(\theta)$先验概率分布，$P(X|\theta)$是似然函数，根据贝叶斯定理，可用以下公式计算后验概率
-\begin{equation}
-    P(\theta|X) = \frac{p(X|\theta)P(\theta)}{p(X)}
-\end{equation}
-模型估计时，估计整个后验概率分布$P(\theta|X)$，如需给出一个模型，通常取后验概率最大的模型。
-\begin{equation}
-    \begin{split}
-        \hat{\theta}_{MAP} &= \arg \max P(\theta | X) \\
-        &= \arg \min -\log P(\theta | X) \\
-        &= \arg \min -\log P(X|\theta) - \log P(\theta) + \log P(X) \\
-        &= \arg \min -\log P(X|\theta) - \log P(\theta)
-    \end{split}
-\end{equation}
-$\log P(X)$与$\theta$无关，可以丢掉。$-\log P(X|\theta)$其实就是NLL，所以MLE和MAP不同在$- \log P(\theta)$。
-假定先验是一个高斯分布
-\begin{equation}
-    P(\theta) = C \times e^{-\frac{\theta^2}{2\sigma^2}}
-\end{equation}
-那么
-\begin{equation}
-    -\log P(\theta) = C + \frac{\theta^2}{2\sigma^2}
-\end{equation}
-
-在MAP中，使用一个高斯分布的先验等价于在MLE中采用$L^2$的正则化。MAP贝叶斯推断提供了一个直观的方法来设计复杂但可解释的
-正则化，更复杂的惩罚项可以通过混合高斯分布作为先验得到，而不是一个单独的高斯分布。
-
-
-预测新的观察数据$x$时，计算数据对后验概率分布的期望值：
-\begin{equation}
-    p(x|X) = \int p(x | \theta, X)p(\theta|X)\mathrm{d}\theta
-\end{equation}
 \section{Initialization scheme}
 \subsection{constant initialization}
 
@@ -230,7 +135,7 @@ Xavier 针对对称激活函数的层权重初始化进行设计，但对于使�
 \end{equation}
 且在权重初始化时，使用上述任意一个即可。
 
-\section{正则化}
+\section{Regularization}
 
 \section{Data proprocessing}
 \subsection{whitening}
@@ -307,48 +212,6 @@ Xavier 针对对称激活函数的层权重初始化进行设计，但对于使�
 
 \subsection{Loss functions}
 
-
-
-\section{Entropy}
-\subsection{信息量}
-信息量和具体的事件相关，且越小概率的事件发生产生的信息量越大。因此，\textbf{一个具体事件的信息量应该是随着其发生概率而递减的，且不能为负}。
-如果我们有俩个不相关的事件x和y，那么我们观察到的俩个\textbf{独立事件同时发生时获得的信息应该等于观察到的事件各自发生时获得的信息之和}，即为:
-\begin{equation}
-    \begin{split}
-        h(x, y) &= h(x) + h(y) \\
-        p(x, y) &= p(x) + p(y)
-    \end{split}
-\end{equation}
-为满足以上性质，信息量$h(x)$公式为下
-\begin{equation}
-    h(x) = -\log P(x)
-\end{equation}
-\subsection{Entropy}
-
-In information theory, the entropy of a random variable is the average level of "information", "surprise", or "uncertainty" inherent in the variable's possible outcomes.
-\begin{equation}
-    H(x) = -\E[\log P(x)]
-\end{equation}
-\subsection{Conditional Entropy}
-\begin{equation}
-    H(X|Y) = -\sum P(x, y) \log \frac{P(x, y)}{P(y)}
-\end{equation}
-
-\subsection{Mutual Information}
-In probability theory and information theory, the mutual information (MI) of two random variables is a
-measure of the mutual dependence between the two variables. More specifically, it quantifies the "amount of information" 
-obtained about one random variable through observing the other random variable. The concept of mutual information is
-intimately linked to that of entropy of a random variable, a fundamental notion in information theory that quantifies
-the expected "amount of information" held in a random variable.
-\begin{equation}
-    \begin{split}
-        I(X;Y) 
-        &= KL(P(x,y)\|P(x)P(y)) \\
-        &= H(X) - H(X|Y) \\
-        &= H(X) + H(Y) - H(X, Y) \\
-        &= \sum_y\sum_x P(x, y) \log \frac{P(x, y)}{P(x)P(y)}
-    \end{split}
-\end{equation}
 
 \section{Batch Normalization}
 机器学习中假设：源空间和目标空间的数据分布是一致的，如果不一致，就是新的机器学习问题，例如transfer learning/domain adaptation
