@@ -1,4 +1,38 @@
 \chapter{Statistics}
+\begin{itemize}
+    \item \textbf{sample space} The set, $\mathcal{S}$, of all possible outcomes of a particular experiment is called the sample space for the experiment.
+    \item \textbf{event} An event is any collection of possible outcomes of an experiment, that is, any subset of $\mathcal{S}$.
+    \item \textbf{conditional probability} If $A$ and $B$ are events in $\mathcal{S}$, and $P(B) > 0$, then the conditional probability of $A$ given $B$, written $P(A|B)$, is
+        \begin{equation}
+            P(A|B) = \frac{P(AB)}{P(B)}
+        \end{equation}
+    \item \textbf{Bayes' Rule} Let $A_1, A_2,...$ be a partition of the sample space, and let $B$ be any set. Then, for each $i = 1, 2, 3, ..$,
+        \begin{equation}
+            P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum P(B|A_i)P(A_i)}
+        \end{equation}
+    \item \textbf{statistically independent} Two events, $A$ and $B$, are statistically independent if 
+        \begin{equation}
+            P(AB) = P(A)P(B)
+        \end{equation}
+    \item \textbf{random variable} A random variable is a \textbf{function} from a sample space $\mathcal{S}$ into the real numbers.
+    \item \textbf{identically distributed} The random variables $X$ and $Y$ are identically distributed if, for every set $A \in \mathcal{B}^1, P(X \in A) = P(Y \in A)$.
+    \item \textbf{cdf} cumulative distribution function.
+    \item \textbf{pmf} probability mass function.
+    \item \textbf{pdf} probability density function.
+    \item \textbf{moment/central moment} For each integer $n$, the $n$th moment of $X$, $\mu_n'$, is 
+        \begin{equation}
+            \mu_n' = \E X^n
+        \end{equation}
+        The $n$th central moment of $X, \mu_n$, is 
+        \begin{equation}
+            \mu_n = \E(X - \mu)^n
+        \end{equation}
+        where $\mu = \mu_1' = \E X$.
+    \item \textbf{variance} The variance of a random variable $X$ is its second central moment, $Var X = \E(X - \E X)^2$. The positive square root of $Var X$ is the standard deviation of $X$.
+    \item \textbf{$n$-dimensional random vector} An $n$-dimensional random vector is a function form a sample space $\mathcal{S}$ into $\mathfrak{R}^n$, $n$-dimensional Euclidean space.
+    \item \textbf{joint pdf / joint pmf}
+    \item \textbf{conditional pmf}
+\end{itemize}
 
 \section{Frequentist statistics VS Bayesian statistics}
 \begin{quotation}
@@ -16,18 +50,19 @@ make a prediction on a new value of x, we can then compute the posterior distrib
 the parameters.(CS229)
 \end{quotation}
 
-\section{期望}
+\section{Mean}
 \begin{itemize}
-    \item 若干个随机变量之和的期望等于各变量的期望之和，$E(X_1 + X_2 + ... + X_n) = E(X_1) + E(X_2) + ... + E(X_n)$
-    \item 若干个独立随机变量之和的期望等于各变量的期望之和，$E(X_1 X_2 ... X_n) = E(X_1)E(X_2)...E(X_n)$
+    \item 若干个随机变量之和的期望等于各变量的期望之和，$\E(X_1 + X_2 + ... + X_n) = \E(X_1) + E(X_2) + ... + \E(X_n)$
+    \item 若干个独立随机变量之和的期望等于各变量的期望之和，$\E(X_1 X_2 ... X_n) = \E(X_1)\E(X_2)...\E(X_n)$
 \end{itemize}
-\section{方差}
+
+\section{Variance}
 均匀分布$X \sim R(a, b)$
 其期望为
 \begin{equation}
     \begin{split}
-        E(X) &= \int_{a}^{b}x f(x) \mathrm{d}x		\\
-        &= \frac{1}{b-a}\int_{a}^{b}x\mathrm{d}x	\\
+        \E(X) &= \int_{a}^{b}x f(x) \d x		\\
+        &= \frac{1}{b-a}\int_{a}^{b}x \d x	\\
         &= \frac{1}{b-a} \frac{1}{2} (b^2 - a^2)	\\
         &= \frac{1}{2}(b + a)
     \end{split}
@@ -35,18 +70,18 @@ the parameters.(CS229)
 其方差为
 \begin{equation}
     \begin{split}
-        Var(X) &= E(X - EX)^2  \\
-        &= E(X)^2 - (EX)^2 \\
-        &= \int_{a}^{b} x^2 f(x) \mathrm{d}x - (EX)^2 \\
+        Var(X) &= \E(X - \E X)^2  \\
+        &= \E(X)^2 - (\E X)^2 \\
+        &= \int_{a}^{b} x^2 f(x) \d x - (\E X)^2 \\
         &= \frac{1}{3(b-a)} (b^3 - a^3) - \frac{1}{4}(b+a)^2 \\
         &= \frac{1}{12}(b-a)^2
     \end{split}
 \end{equation}
 \\
-对于正态分布$N(\mu, \sigma ^2)$，其期望$E(X) = \mu$，方差为$Var(X) = \sigma^2$.
+对于正态分布$\N(\mu, \sigma ^2)$，其期望$\E(X) = \mu$，方差为$Var(X) = \sigma^2$.
 
 
-\section{最小方差无偏估计}
+\section{Best Unbiased Estimators}
 
 
 \section{Divergence}
