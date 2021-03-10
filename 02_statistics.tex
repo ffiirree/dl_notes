@@ -10,7 +10,7 @@
         \begin{equation}
             P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum P(B|A_i)P(A_i)}
         \end{equation}
-    \item \textbf{statistically independent} Two events, $A$ and $B$, are statistically independent if 
+    \item \textbf{statistically independent} Two events, $A$ and $B$, are statistically independent if
         \begin{equation}
             P(AB) = P(A)P(B)
         \end{equation}
@@ -19,11 +19,11 @@
     \item \textbf{cdf} cumulative distribution function.
     \item \textbf{pmf} probability mass function.
     \item \textbf{pdf} probability density function.
-    \item \textbf{moment/central moment} For each integer $n$, the $n$th moment of $X$, $\mu_n'$, is 
+    \item \textbf{moment/central moment} For each integer $n$, the $n$th moment of $X$, $\mu_n'$, is
         \begin{equation}
             \mu_n' = \E X^n
         \end{equation}
-        The $n$th central moment of $X, \mu_n$, is 
+        The $n$th central moment of $X, \mu_n$, is
         \begin{equation}
             \mu_n = \E(X - \mu)^n
         \end{equation}
@@ -62,7 +62,7 @@ the parameters.(CS229)
 \begin{equation}
     \begin{split}
         \E(X) &= \int_{a}^{b}x f(x) \d x		\\
-        &= \frac{1}{b-a}\int_{a}^{b}x \d x	\\
+        &= \frac{1}{b-a}\in t_{a}^{b}x \d x	\\
         &= \frac{1}{b-a} \frac{1}{2} (b^2 - a^2)	\\
         &= \frac{1}{2}(b + a)
     \end{split}
@@ -228,18 +228,38 @@ the expected "amount of information" held in a random variable.
 \section{Maximum likelihood estimation}
 \textbf{Frequentist statistics}
 
-深度学习来就是用模型$Q(x;\theta)$来估计数据的真实分布$P(x;\theta)$，对于一组确定的数据集$X$，在样本已被观察到的情况下，需要找到使得$Q(X; \theta)$出现可能性最大的一组参数$\theta$，也就是
+深度学习来就是用模型$Q(x;\theta)$来估计数据的真实分布$P(x)$，对于一组确定的数据集$X$，在样本已被观察到的情况下，需要找到使得$Q(X; \theta)$出现可能性最大的一组参数$\theta$，也就是
 最大似然估计:
 \begin{equation}
     \begin{split}
         \hat{\theta}_{MLE}
-        &= \arg \max_\theta Q(X, \theta) \\
+        &= \arg \max_\theta Q(X; \theta) \\
         &= \arg \max_{\theta} \prod _{i=1}^m Q(x^i; \theta) \\
         &\Rightarrow \arg \max_{\theta} \sum_{i=0}^m \log Q(x^i; \theta) \\
         &\Rightarrow \arg \min_{\theta} - \sum_{i=0}^m \log Q(x^i; \theta) \\
-        &\Rightarrow \arg \min_{\theta} - \E _{x \sim P} \log Q(x^i; \theta)
+        &\Rightarrow \arg \min_{\theta} - \E _{x \sim P(x)}[\log Q(x; \theta)]
     \end{split}
 \end{equation}
+
+\subsection{MLE \& KLD}
+如果使用KLD来衡量模型$Q(x;\theta)$和真实分布$P(x)$之间的差距，其中$\E_{x \sim P(x)}\log P(x)$为常量，则有
+\begin{equation}
+    \begin{split}
+    \arg \min KL(P(x)\|Q(x;\theta))
+        &= \arg \min_{\theta} \E_{x \sim P(x)}[\log P(x) - \log Q(x;\theta)] \\
+        &\Rightarrow \arg \min_{\theta} - \E_{x \sim P(x)}[\log Q(x;\theta)]
+    \end{split}
+\end{equation}
+
+在估计真实分布的情况下，计算KLD和使用MLE是等价的。
+
+\section{When P(x) is constant}
+When P(x) is contant, these equtions are equivalent.
+\begin{itemize}
+    \item $ KLD = KL(P(x)\|Q(x;\theta)) = \E_{x \sim P(x)}[\log P(x) - \log Q(x; \theta)] = - \E_{x \sim P(x)}[\log Q(x;\theta)] $
+    \item $ CE = H(P, Q) = \E_{x \sim P(x)}[- \log Q(x)] = KL(P(x)\|Q(x)) = - \E_{x \sim P(x)}[\log Q(x;\theta)] $
+    \item $ MLE = \arg \min - \E _{x \sim P(x)}[\log Q(x; \theta)]$
+\end{itemize}
 
 
 \section{Maximum A Posteriori}
@@ -263,7 +283,7 @@ $\log P(X)$与$\theta$无关，可以丢掉。$-\log P(X|\theta)$其实就是NLL
 \end{equation}
 那么
 \begin{equation}
-    -\log P(\theta) = C + \frac{\theta^2}{2\sigma^2}
+    \log P(\theta) = C + \frac{\theta^2}{2\sigma^2}
 \end{equation}
 
 在MAP中，使用一个高斯分布的先验等价于在MLE中采用$L^2$的正则化。MAP贝叶斯推断提供了一个直观的方法来设计复杂但可解释的

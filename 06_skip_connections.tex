@@ -109,13 +109,31 @@ then we will have:
 \end{figure}
 
 \section{UNet family}
-\section{FCN}
+\subsection{U-Net}
+
+\subsubsection{Architecture}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=14cm]{images/unet.png}
+    \includegraphics[width=10cm]{images/unet.png}
     \caption{UNet}
     \label{fig:unet}
 \end{figure}
+UNet\cite{UNet2015}: The architecture consists of a \textbf{contracting path} to capture
+context and a symmetric \textbf{expanding path} that enables precise localization.
+
+[offical implementation]\url{http://lmb.informatik.uni-freiburg.de/people/ronneber/u-net}
+
+\subsubsection{Metrics}
+
+\subsection{VNet}
+
+\subsubsection{Dice coeffcient}
+\[
+dice = \frac{2|X \cap Y |}{|X| + |Y|}
+\]
+
+
+\subsection{UNet 2+}
 
 \begin{figure}[H]
     \centering
@@ -126,6 +144,8 @@ then we will have:
 
 多深合适？降采样对分割网络到底是不是必须的？
 不一定要降到第四次才上采样，使用浅层和深层的特征。
+
+\subsection{UNet 3+}
 
 \begin{figure}[H]
     \centering

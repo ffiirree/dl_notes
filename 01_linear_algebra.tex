@@ -6,32 +6,39 @@
 \end{equation}
 特征值$\lambda$代表线性变化的伸缩倍数，特征向量$u$代表变换的方向
 
-\section{奇异值分解}
-\textbf{定义} 对于$A \in C^{m \times n}$，$rank(A = r$，矩阵$A^HA$的特征值为
+\section{Singular value decomposition}
+\textbf{定义} 对于$A \in C^{m \times n}$，$rank(A) = r$，矩阵$A^HA$的特征值为
 $\lambda_1 \geqslant \lambda_2 \geqslant ... \geqslant \lambda_r > 0$，
-$\lambda_{r+1} = \lambda_{r+2} = ... = \lambda_{n} = 0$，称正数$\sigma_i = \sqrt{\lambda_i}(i = 1,2，...,r) $
+$\lambda_{r+1} = \lambda_{r+2} = ... = \lambda_{n} = 0$，称正数$\sigma_i = \sqrt{\lambda_i}(i = 1,2,...,r) $
 为矩阵$A$的\textbf{奇异值}
 \\
 \begin{equation}
     \begin{split}
         A
         &= U \Sigma V^H \\
-        &= (u_1\ u_2\ \cdot \cdot \cdot\ u_m)
+        &=
         \begin{pmatrix}
-            \lambda_1 &  &
+            u_1 & u_2 & \cdots & u_m
         \end{pmatrix}
+        \left(
+            \begin{array}{cccc:c}
+                \sigma_1&           &           &           & \\
+                        & \sigma_2  &           &           & 0\\
+                        &           & \ddots    &           & \\
+                        &           &           & \sigma_r  & \\
+                        \hdashline
+                        &           & 0         &           & 0
+            \end{array}
+        \right)
         \begin{pmatrix}
             v_1^H \\
             v_2^H \\
-            \cdot \\
-            \cdot \\
-            \cdot \\
+            \cdots \\
             v_n^H
-        \end{pmatrix}
-        \\
+        \end{pmatrix} \\
         &= \sigma_1 \boldsymbol{u}_1 \boldsymbol{v}_1^H + \sigma_2 \boldsymbol{u}_2 \boldsymbol{v}_1^H + \cdot\cdot\cdot + \sigma_r \boldsymbol{u}_r \boldsymbol{v}_r^H
     \end{split}
 \end{equation}
 
-\subsection{降维和图像压缩}
+\subsection{Dimensionality Reduction}
 将图片作为矩阵进行奇异值分解，提取前n个奇异值，则可以达到图像压缩的目的.

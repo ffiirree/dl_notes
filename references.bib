@@ -90,6 +90,13 @@
   year   = {2020}
 }
 
+@book{lihang2019,
+  title  = {统计学习方法, 第二版},
+  author = {Hang Li},
+  note   = {\url{https://book.douban.com/subject/10590856/}},
+  year   = {2019}
+}
+
 @inproceedings{Balduzzi2017,
   abstract  = {A long-standing obstacle to progress in deep learning is the problem of vanishing and exploding gradients. Although, the problem has largely been overcome via carefully constructed initializations and batch normalization, architectures incorporating skip-connections such as highway and resnets perform much better than standard feedforward architectures despite wellchosen initialization and batch normalization. In this paper, we identify the shattered gradients problem. Specifically, we show that the correlation between gradients in standard feedforward networks decays exponentially with depth resulting in gradients that resemble white noise whereas, in contrast, the gradients in architectures with skip-connections are far more resistant to shattering, decaying sublinearly. Detailed empirical evidence is presented in support of the analysis, on both fully-connected networks and convnets. Finally, we present a new "looks linear" (LL) initialization that prevents shattering, with preliminary experiments showing the new initialization allows to train very deep networks without the addition of skip-connections.},
   author    = {Balduzzi, David and Frean, Marcus and Leary, Lennox and Lewis, J. P. and Ma, Kurt Wan Duo and McWilliams, Brian},
@@ -116,4 +123,34 @@
   title     = {{How does batch normalization help optimization?}},
   volume    = {2018-December},
   year      = {2018}
+}
+@inproceedings{UNet2015,
+   abstract = {There is large consent that successful training of deep networks requires many thousand annotated training samples. In this paper, we present a network and training strategy that relies on the strong use of data augmentation to use the available annotated samples more efficiently. The architecture consists of a contracting path to capture context and a symmetric expanding path that enables precise localization. We show that such a network can be trained end-to-end from very few images and outperforms the prior best method (a sliding-window convolutional network) on the ISBI challenge for segmentation of neuronal structures in electron microscopic stacks. Using the same network trained on transmitted light microscopy images (phase contrast and DIC) we won the ISBI cell tracking challenge 2015 in these categories by a large margin. Moreover, the network is fast. Segmentation of a 512x512 image takes less than a second on a recent GPU. The full implementation (based on Caffe) and the trained networks are available at http://lmb.informatik.uni-freiburg.de/people/ronneber/u-net.},
+   author = {Olaf Ronneberger and Philipp Fischer and Thomas Brox},
+   doi = {10.1007/978-3-319-24574-4_28},
+   issn = {16113349},
+   journal = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+   title = {U-net: Convolutional networks for biomedical image segmentation},
+   volume = {9351},
+   year = {2015},
+}
+@inproceedings{UNet++2018,
+   abstract = {In this paper, we present UNet++, a new, more powerful architecture for medical image segmentation. Our architecture is essentially a deeply-supervised encoder-decoder network where the encoder and decoder sub-networks are connected through a series of nested, dense skip pathways. The re-designed skip pathways aim at reducing the semantic gap between the feature maps of the encoder and decoder sub-networks. We argue that the optimizer would deal with an easier learning task when the feature maps from the decoder and encoder networks are semantically similar. We have evaluated UNet++ in comparison with U-Net and wide U-Net architectures across multiple medical image segmentation tasks: nodule segmentation in the low-dose CT scans of chest, nuclei segmentation in the microscopy images, liver segmentation in abdominal CT scans, and polyp segmentation in colonoscopy videos. Our experiments demonstrate that UNet++ with deep supervision achieves an average IoU gain of 3.9 and 3.4 points over U-Net and wide U-Net, respectively.},
+   author = {Zongwei Zhou and Md Mahfuzur Rahman Siddiquee and Nima Tajbakhsh and Jianming Liang},
+   doi = {10.1007/978-3-030-00889-5_1},
+   issn = {16113349},
+   journal = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+   title = {Unet++: A nested u-net architecture for medical image segmentation},
+   volume = {11045 LNCS},
+   year = {2018},
+}
+@inproceedings{UNet3++2020,
+   abstract = {Recently, a growing interest has been seen in deep learning-based semantic segmentation. UNet, which is one of deep learning networks with an encoder-decoder architecture, is widely used in medical image segmentation. Combining multi-scale features is one of important factors for accurate segmentation. UNet++ was developed as a modified Unet by designing an architecture with nested and dense skip connections. However, it does not explore sufficient information from full scales and there is still a large room for improvement. In this paper, we propose a novel UNet 3+, which takes advantage of full-scale skip connections and deep supervisions. The full-scale skip connections incorporate low-level details with high-level semantics from feature maps in different scales; while the deep supervision learns hierarchical representations from the full-scale aggregated feature maps. The proposed method is especially benefiting for organs that appear at varying scales. In addition to accuracy improvements, the proposed UNet 3+ can reduce the network parameters to improve the computation efficiency. We further propose a hybrid loss function and devise a classification-guided module to enhance the organ boundary and reduce the over-segmentation in a non-organ image, yielding more accurate segmentation results. The effectiveness of the proposed method is demonstrated on two datasets. The code is available at: github.com/ZJUGiveLab/UNet-Version.},
+   author = {Huimin Huang and Lanfen Lin and Ruofeng Tong and Hongjie Hu and Qiaowei Zhang and Yutaro Iwamoto and Xianhua Han and Yen Wei Chen and Jian Wu},
+   doi = {10.1109/ICASSP40776.2020.9053405},
+   issn = {15206149},
+   journal = {ICASSP, IEEE International Conference on Acoustics, Speech and Signal Processing - Proceedings},
+   title = {UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation},
+   volume = {2020-May},
+   year = {2020},
 }

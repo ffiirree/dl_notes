@@ -1,33 +1,42 @@
 \chapter{Approximate Inference}
+\textbf{Statistical inference} is the process of using data analysis to infer properties of an underlying distribution of probability.
+\textbf{Bayesian inference} is a method of statistical inference in which \textit{Bayes' theorem} is used to update the probability for a hypothesis as more evidence or information becomes available.
+
+Bayesian inference derives the \textbf{posterior probability} as a consequence of two antecedents: a \textbf{prior probability} and a "\textbf{likelihood function}" derived from a statistical model
+for the observed data. Bayesian inference computes the posterior probability according to Bayes' theorem:
+\begin{equation}
+    P(z|x) = \frac{P(x|z)P(z)}{P(x)}
+\end{equation}
+
+\begin{itemize}
+    \item P(x) \textbf{evidence} : probability distribution of the observed data independenty from any parameter value or latent variables.
+    \item P(z) \textbf{prior} : probability distribution of the parameter or latent variables independently from any observation.
+    \item P(x|z) \textbf{likelihood} : probability distribution of the observed data given a parameter value or latent variables.
+    \item P(z|x) \textbf{posterior} : probability distribution of the parameter or latent variables given the observed data.
+\end{itemize}
+
+The computation of the posterior requires three terms: \textit{a prior, a likelihood and an evidence}. The first two can be expressed easily as they are 
+part of the assumed model. But the evdience requires to be computed such that
+\begin{equation}
+    P(x) = \int P(x|z)P(z) \d z
+\end{equation}
+
+It can become intractable in higher dimensions. In this last case, the exact computation of the posterior distribution is practically infeasible and some \textit{approximation techniques} have to be used to
+get solutions to problems that require to know this posterior, such as \textbf{Markov Chain Monte Carlo} and \textbf{Variational Inference} methods.
 
 \section{Monte Carlo Methods}
+Monte Carlo method, 也称为 statistical simulation method, 是通过从概率模型的随机抽样进行近似数值计算的方法。Markov Chain Monte Carlo 则是
+以Markov chain为概率模型的Monte carlo Method.
+
+Metropolis-Hastings 算法是最基本的MCMC，Gibbs sampling 是更简单、使用更广泛的MCMC.
+
+MC要解决的问题是，假设概率分布已知，通过抽样获得概率分布的随机样本，并通过得到的随机样本对概率分布的特征进行分析. 所以\textbf{MC的核心是random sampling}.
+
+一般的蒙特卡罗法有直接抽样法、接受-拒绝抽样法、重要性抽样法. \cite{lihang2019}
+
+\subsection{Markov Chains}
 
 \section{Variational Inference}
-
-Consider a joint density of latent variables $z$ and observations $x$
-\begin{equation}
-    P(z, x) = P(z)P(x|z)
-\end{equation}
-
-In Bayesian models, the latent variables help govern the distribution of the data. A Bayesian
-model draws the latent variables from a \textbf{prior density $P(z)$} and then relates them to the
-observations through the \textbf{likelihood $P(x|z)$}. Inference in a Bayesian model amounts to
-conditioning on data and computing the \textbf{posterior $P(z|x)$}. In complex Bayesian models,
-this computation often requires approximate inference.
-
-The inference problem is to compute the conditional density of the latent variables given the observations, $p(z|x)$. This conditional
-can be used to produce point or interval estimates of the latent variables, form predictive densities of new data, and more. The conditional
-density can be written as
-\begin{equation}
-    p(z|x) = \frac{p(z, x)}{p(x)}
-\end{equation}
-The denominator contains the marginal density of the observations, also called \textbf{evidence}, which can be calculated by marginalizing out
-the latent variables from the joint density,
-\begin{equation}
-    p(x) = \int p(z, x) \d z
-\end{equation}
-For many models, this evidence integral is unavailable in closed form or requires exponential
-time to compute.
 
 \textbf{The main idea behind variational inference is to first posit a family of densities and then to find the member of that family which is close to
 the target. Closeness is measured by Kullback-Leibler divergence.} Variational inference thus turns the
