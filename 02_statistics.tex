@@ -92,12 +92,10 @@ and need not satisfy the triangle inequality. [\href{https://en.wikipedia.org/wi
 
 Suppose $\mathcal{S}$ is a space of all probability distributions with common support.
 Then a divergence on $\mathcal{S}$ is a function $D(\cdot\|\cdot): \mathcal{S} \times \mathcal{S} \rightarrow R$ satisfying
-\begin{equation}
-    \begin{split}
-        D(p\|q) &\geq 0 \text{ for all }p, q \in S, \\
-        D(p\|q) &= 0\text{ if and only if }p = q,
-    \end{split}
-\end{equation}
+\begin{align}
+    D(p\|q) &\geq 0 \text{ for all }p, q \in S \\
+    D(p\|q) &= 0 \text{ if and only if }p = q
+\end{align}
 
 The two most important divergences are the \textbf{KL divergence} (relative entropy), which is central to information theory
 and statistics, and the \textbf{squared Euclidean distance} (SED).
@@ -106,7 +104,7 @@ The two most important classes of divergences are the \textbf{$f$-divergences} a
 The only divergence that is both an $f$-divergence and a Bregman divergence is the KL divergence;
 the SED is a Bregman divergence, but not an $f$-divergence.
 
-\subsection{$f$-divergence}
+\subsection{f-divergence}
 An \textbf{$f$-divergence} is a function $D_f(P\|Q)$ that measures the difference between two probability
 distributions $P$ and $Q$. It helps the intuition to think of the divergence as an average, weighted by the
 function $f$, of the odds ratio given by $P$ and $Q$. [\href{https://en.wikipedia.org/wiki/F-divergence}{Wikipedia: $f$-divergence}]
@@ -261,6 +259,17 @@ When P(x) is contant, these equtions are equivalent.
     \item $ MLE = \arg \min - \E _{x \sim P(x)}[\log Q(x; \theta)]$
 \end{itemize}
 
+\subsection{Loss function}
+
+最小化KL散度其实就是在最小化分布之间的交叉熵。任何一个由负对数似然组成的损失都是定义在训练集上的经验分布和在模型上的概率分布之间的交叉熵。
+
+如果神经网络使用最大似然进行训练，则意味着代价函数就是负的对数似然，等价于 训练数据和模型分布之间的交叉熵。
+\[J(\theta) = - \E _{x,y \sim P(y|x)} \log Q(y|x; \theta)\]
+代价函数的具体形式随着模型改变，取决于$\log Q(y|x; \theta)$的形式。
+
+\subsubsection{0-1}
+
+\[J(\theta) = -\sum_{x}[y\ln a + (1 - y)\ln (1 - a)]\]
 
 \section{Maximum A Posteriori}
 $P(\theta)$先验概率分布，$P(X|\theta)$是似然函数，根据贝叶斯定理，可用以下公式计算后验概率

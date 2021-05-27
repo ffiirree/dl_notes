@@ -1,3 +1,35 @@
 \chapter{Semantic Segmentation}
 
 \section{FCN - Fully Convolutional Network}
+
+\subsection{Metrics}
+Let $p_{ij}$ be the number of pixels of class $i$ predicted to belong to class $j$.
+
+\subsubsection{Pixel accuracy}
+
+\[
+    PA = \frac{\sum\limits_{i=0}^k p_{ii}}{\sum\limits_{i=0}^k \sum\limits_{j=0}^k p_{ij}}
+\]
+
+\subsubsection{Mean accuraccy}
+
+\[
+    MPA = \frac{1}{k + 1} \sum\limits_{i=0}^k \frac{p_{ii}}{\sum\limits_{j=0}^k p_{ij}}
+\]
+
+\subsubsection{Mean IoU}
+
+\[
+    MIoU = \frac{1}{k + 1} \sum_{i=0}^k \frac{p_{ii}}{\sum\limits_{j=0}^k p_{ij} + \sum\limits_{j=0}^k p_{ji} - p_{ii}}
+\]
+
+\subsubsection{f-score}
+
+\[
+    f-score = (1 + \beta ^2) \frac{precision \cdot recall}{\beta^2 \cdot precision + recall}
+\]
+
+\subsubsection{dice coeffience}
+\[
+    dice-coeff = f_{1}-score
+\]

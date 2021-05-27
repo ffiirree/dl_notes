@@ -17,8 +17,8 @@
 
 ### Deep supervision
 
-- [ ] [2014] [Deeply-Supervised Nets](https://arxiv.org/abs/1409.5185)
-- [ ] [2015] [Training Deeper Convolutional Networks with Deep Supervision](https://arxiv.org/abs/1505.02496)
+- [x] [2014] [Deeply-Supervised Nets](https://arxiv.org/abs/1409.5185)
+- [x] [2015] [Training Deeper Convolutional Networks with Deep Supervision](https://arxiv.org/abs/1505.02496)
 
 ### Data Augmentation
 
@@ -32,6 +32,7 @@
 - [x] [2012] `AlexNet` - [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 - [x] [2013] `NIN, Global Average Pooling, 1 x 1 convolution` - [Network In Network](https://arxiv.org/abs/1312.4400) [arXiv]
 - [x] [2014] `VGGNet` - [Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/abs/1409.1556) [arXiv]
+- [x] [2021] [`RepVGG`: Making VGG-style ConvNets Great Again](https://arxiv.org/abs/2101.03697) [CVPR]
 
 ### Inception
 
@@ -51,7 +52,9 @@
 ### Visualization
 
 - [ ] [2013] [Visualizing and Understanding Convolutional Networks](https://arxiv.org/abs/1311.2901)
+- [ ] [2013] [Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps](https://arxiv.org/abs/1312.6034)
 - [ ] [2015] [Understanding Neural Networks Through Deep Visualization](https://arxiv.org/abs/1506.06579)
+- [x] [2015] `DeepDream` - [Inceptionism: Going Deeper into Neural Networks](https://ai.googleblog.com/2015/06/inceptionism-going-deeper-into-neural.html)
 
 ## Attention Mechanism
 
