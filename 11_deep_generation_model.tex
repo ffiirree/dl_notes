@@ -113,7 +113,7 @@ let the variational approximate posterior be a \textbf{multivariate Gaussian} wi
     \begin{split}
         KL(Q_{\phi}(z|x)\|P(z))
         &= KL(\N(\mu(x), \Sigma(x))\|\N(0, I)) \\
-        &= \frac{1}{2}\left((\mu(x))^T(\mu(x)) + tr (\Sigma(x)) - k - \log det (\Sigma(x))\right)
+        &= \frac{1}{2}\left(\mu(x)^\intercal\mu(x)  + \tr (\Sigma(x)) - k - \log \det (\Sigma(x))\right)
     \end{split}
 \end{equation}
 

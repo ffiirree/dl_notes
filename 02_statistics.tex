@@ -81,6 +81,67 @@ the parameters.(CS229)
 对于正态分布$\N(\mu, \sigma ^2)$，其期望$\E(X) = \mu$，方差为$Var(X) = \sigma^2$.
 
 
+\section{Covariance Matrix}
+\textbf{Covariance matrix} is a square matrix giving the covariance between each pair of elements of a given random vector.
+Any covariance matrix is \textbf{symmetric and positive semi-definite} and its main diagonal contains variances(i.e., the covariance of each elements with itself).
+
+
+If the entries in the column vector $X = (x_1, x_2, ..., x_n)^T$ are random variances, 
+\[
+    \begin{split}
+        Cov(X, X) 
+        &= E[(X - \E(X))(X - \E(X))^\top] \\
+        &= 
+        \begin{bmatrix}
+            \E[(x_1-\E(x_1))(x_1-\E(x_1))] & \E[(x_1-E(x_1))(x_2-\E(x_2))] & \dots & \E[(x_1-\E(x_1))(x_n-\E(x_n))] \\
+            \E[(x_2-\E(x_2))(x_1-\E(x_1))] & \E[(x_2-E(x_2))(x_2-\E(x_2))] & \dots & \E[(x_2-\E(x_2))(x_n-\E(x_n))] \\
+            \vdots & \vdots & \ddots &\vdots \\
+            \E[(x_n-\E(x_n))(x_1-\E(x_1))] & \E[(x_n-\E(x_n))(x_2-\E(x_2))] & \dots & \E[(x_n-\E(x_n))(x_n-\E(x_n))]
+        \end{bmatrix}
+    \end{split}
+\]
+
+\subsection{Definite matrix}
+An $n \times n$ symmetric real matrix $\mM$ is said to be \textbf{positive-definite} if $\vx^\top \mM \vx > 0$ for all non-zero $\vx$ in $\R^n$. Formally,
+\[\vx^\top \mM \vx > 0 \ \text{for all}\ \vx \in \R^n \backslash \{\mathbf{0}\}\]
+
+An $n \times n$ symmetric real matrix $\mM$ is said to be \textbf{positive-semidefinite} if $\vx^\top \mM \vx \geq 0$ for all $\vx$ in $\R^n$. Formally,
+\[\vx^\top \mM \vx \geqslant 0 \ \text{for all}\ \vx \in \R^n \]
+
+\subsection{Covariance Matrix is Positive Semi-definite}
+\[
+    \begin{split}
+        \vy^\top \mM \vy 
+        &= \vy^\top \E[(X - \E(X))(X - \E(X))^\top] \vy \\
+        &= \E[\vy^\top(X - \E(X))(X - \E(X))^\top\vy] \\
+        &= \E[((X - \E(X))^\top\vy)^2] \geqslant 0
+    \end{split}
+\]
+
+
+对任意矩阵 $\mA$, $\mA^\top\mA$是半正定的。反过来，任意半正定矩阵$\mM$都可以写为$\mA^\top\mA$，即Cholesky分解。
+
+\subsection{Orthogonal Matrix}
+正交矩阵是指其转置等于其逆的矩阵。
+\[\mA^\top = \mA^{-1}\]
+
+\subsubsection{性质}
+\begin{itemize}
+    \item $\mA^\top = \mA^{-1}; \mA^\top \mA = \mI$
+    \item $\det{\mA} = \pm 1$
+    \item $\mA$的行（列）向量组为n维单位正交向量组
+\end{itemize}
+
+
+\subsection{Upper triangular matrix}
+\begin{itemize}
+    \item 上三角矩阵的行列式为对角线元素相乘
+    \item 上三角矩阵乘以系数后也是上三角矩阵
+    \item 对加法和乘法封闭
+    \item 逆为上三角矩阵
+    \item 上三角矩阵的集合以及相应运算构成一个子代数
+\end{itemize}
+
 \section{Best Unbiased Estimators}
 
 
@@ -198,9 +259,26 @@ When $H(P)$ is constant, minimizing the $H(P, Q)$ is equivalent to minimizing th
 \subsection{Conditional Entropy}
 In information theory, the conditional entropy quantifies the amount of information needed to describe the outcome of a random variable
 $Y$ given that the value of another random variable $X$ is known.
-\begin{equation}
-    H(Y|X) = -\sum P(x, y) \log \frac{P(x, y)}{P(x)}
-\end{equation}
+\[
+    \begin{split}
+        H(Y|X)
+        &= -\sum_x P(x) H(Y|X=x) \\
+        &= -\sum_x P(x) \sum_y P(y|x) \log P(y|x) \\
+        &= -\sum_x \sum_y P(x, y) \log P(y|x) \\
+        &= -\sum_{x,y} P(x, y) \log \frac{P(x, y)}{P(x)} 
+    \end{split}
+\]
+
+\[
+    \begin{split}
+        H(Y|X)
+        &= -\sum_{x,y} P(x, y) \log \frac{P(x, y)}{P(x)} \\
+        &= -\sum_{x,y} P(x,y) \log P(x, y) + \sum_{x,y} P(x, y) \log P(x) \\
+        &= H(X, Y) + \sum_{x} P(x) \log P(x) \\
+        &= H(X, Y) - H(X)
+    \end{split}
+\]
+    
 
 \section{Mutual Information}
 In probability theory and information theory, the mutual information (MI) of two random variables is a

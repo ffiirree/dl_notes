@@ -48,10 +48,10 @@ variables. Then, we try to find the member of that family that minimizes the KL 
     Q^*(z) = \arg \min_{Q(z) \in \mathcal{Q}} KL(Q(z)\|P(z|x))
 \end{equation}
 Finally, we approximate the posterior with the optimized member of the family $Q^*(z)$. The reach of the family $\mathcal{Q}$ manages the complexity of this
-optimization. One of the key ideas behind variational inference is to choos $\mathcal{Q}$ to be flexible enough to capture a density close to $p(z|x)$, but
+optimization. One of the key ideas behind variational inference is to choose $\mathcal{Q}$ to be flexible enough to capture a density close to $P(z|x)$, but
 simple enough for efficient optimization.
 
-However, this objective is not computable because it requires computing the evidence $\log p(x)$
+However, this objective is not computable because it requires computing the evidence $\log P(x)$
 \begin{equation}
     \begin{split}
         KL(Q(z)\|P(z|x))
@@ -81,7 +81,7 @@ minimizing the KL divergence.
     \end{split}
 \end{equation}
 
-The first termis an expected likelihood; it encourages densities
+The first term is an expected likelihood; it encourages densities
 that place their mass on configurations of the latent variables
 that explain the observed data. The second term is the negative
 divergence between the variational density and the prior; it encourages

@@ -1,5 +1,17 @@
 \chapter{Linear Algebra}
 
+\section{Norm}
+\[
+    \|\vx\|_p = \biggl(\sum_i |x_i|^p\biggr)^{\frac{1}{p}}, p \in \R\ and\ p \geqslant 1
+\]
+
+范数是满足以下性质的任意函数：
+\begin{itemize}
+    \item $f(\vx) = 0 \Rightarrow \vx = 0$
+    \item $f(\vx + \vy) \leqslant f(\vx) + f(\vy)$
+    \item $\forall \alpha \in \R, f(\alpha \vx) = |\alpha|f(\vx)$
+\end{itemize}
+
 \section{Eigenvalues and Eigenvectors}
 \begin{equation}
     Au = \lambda u
@@ -42,3 +54,22 @@ $\lambda_{r+1} = \lambda_{r+2} = ... = \lambda_{n} = 0$，称正数$\sigma_i = \
 
 \subsection{Dimensionality Reduction}
 将图片作为矩阵进行奇异值分解，提取前n个奇异值，则可以达到图像压缩的目的.
+
+
+\subsection{Matrix}
+\href{https://math.stackexchange.com/questions/42649/why-are-invertible-matrices-called-non-singular}{Why are invertible matrices called 'non-singular'?}
+
+If you take an $n \times n$ matrix "at random", then it will almost certainly be invertible. 
+That is, the generic case is that of an invertible matrix, the special case is that of a matrix that is not invertible.
+
+For example, a $1 \times 1$ matrix(with real coefficients) is invertible if and only if it is not the $\mathbf{0}$ matrix; 
+for $2 \times 2$ matrices, it is invertible if and only if the two rows do not lie in the same line through the origin; 
+for $3 \times 3$, if and only if the three rows do not lie in the same plane through the origin; etc.
+
+So here, "singular" is not being taken in the sense of "single", but rather in the sense of "special", "not common". 
+See the dictionary definition: it includes "odd", "exceptional", "unusual", "peculiar".
+
+The noninvertible case is the "special", "uncommon" case for matrices. 
+It is also "singular" in the sense of being the "troublesome" case (you probably know by now that when you are working with matrices, the invertible case is usually the easy one).
+
+\textbf{满秩矩阵一定是可逆矩阵}

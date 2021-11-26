@@ -17,6 +17,12 @@
 \usepackage{palatino}
 \usepackage{booktabs}
 \usepackage{bm}
+\usepackage{multirow}
+\usepackage{makecell}
+\def\normalrule{\specialrule{.04em}{0pt}{0pt}}
+
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\sigmoid}{sigmoid}
 
 \geometry{a4paper, left=2.5cm, top=2.5cm, bottom=2cm}
 \geometry{hcentering}
@@ -35,19 +41,21 @@
 
 \input{math_notation}
 
-\input{01_linear_algebra}
-\input{02_statistics}
+% \input{01_linear_algebra}
+% \input{02_statistics}
 \input{03_basic}
-\input{04_optimization_algorithms}
-\input{05_models}
-\input{06_skip_connections}
-\input{07_semantic_segmentation}
-\input{08_autoencoders}
-\input{09_structured_probabilistic_model}
-\input{10_approximate_inference}
-\input{11_deep_generation_model}
-\input{12_reinforcement_learning}
-\input{13_interpretability}
+% \input{04_optimization_algorithms}
+% \input{05_models}
+% \input{06_skip_connections}
+% \input{07_semantic_segmentation}
+% \input{08_autoencoders}
+% \input{09_structured_probabilistic_model}
+% \input{10_approximate_inference}
+% \input{11_deep_generation_model}
+% \input{12_reinforcement_learning}
+% \input{13_interpretability}
+% \input{14_tricks}
+
 
 \bibliographystyle{plain}
 \bibliography{references}

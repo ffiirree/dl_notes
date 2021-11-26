@@ -148,7 +148,7 @@ Xavier 针对对称激活函数的层权重初始化进行设计，但对于使�
     \draw[very thin,color=gray] (-1.9, -1.9) grid (1.9, 1.9);
     \draw[->] (-2,0) -- (2,0) node[right] {$x$};
     \draw[->] (0,-2) -- (0,2) node[above] {$f(x)$};
-    \draw[color=red]	plot (\x, { 1 / (1 + exp(-\x)) })   	node[right] {$g(x) = \frac{1}{1 + \mathrm{e^{-x}}}$};
+    \draw[color=red]	plot (\x, { 1 / (1 + exp(-3*\x)) })   	node[right] {$g(x) = \frac{1}{1 + \mathrm{e^{-x}}}$};
 \end{tikzpicture}
 
 \begin{equation}
@@ -182,37 +182,73 @@ Xavier 针对对称激活函数的层权重初始化进行设计，但对于使�
     \draw[color=red]	plot (\x,{max(0.1 * \x, \x)})			node[right] {$g(x) = \max(0.1x, x)$};
 \end{tikzpicture}
 
-\subsubsection{ReLU}
-\begin{equation}
-    g(x) = \max(0, x)
-\end{equation}
 
-\subsubsection{Leaky ReLU}
-\begin{equation}
-    g(x) = \max(0.01x, x)
-\end{equation}
 
-\subsubsection{PReLU}
-\begin{equation}
-    g(x) = \max(\alpha x, x)
-\end{equation}
-
-\subsection{haha}
-\begin{tikzpicture}[domain=-2:2]
-    \draw[very thin,color=gray] (-1.9, -1.9) grid (1.9, 1.9);
-    \draw[->] (-2,0) -- (2,0) node[right] {$x$};
-    \draw[->] (0,-2) -- (0,2) node[above] {$f(x)$};
-    \draw[color=blue]	plot (\x,{tanh(\x) + 0.25 * \x})					node[right] {$g(x) = \tanh(x) + 0.25x$};
-\end{tikzpicture}
-
-\begin{equation}
-    \begin{split}
-        g(x) &= \tanh(x) + 0.25x \\
-        g(x)' &= 0.75 - g(x)^2 \\ &= 0.75 - \tanh(x)^2
-    \end{split}
-\end{equation}
+\begin{table}[h]
+	\centering
+	\small
+	% \resizebox{\linewidth}{!}{
+		\begin{tabular}{c|c|c|c}
+			\toprule
+			Name            & Plot 	        & $f(x)$   & $f'(x)$    \\
+			\midrule
+			Sigmoid  		&   		    & $\sigma(x) = \frac{1}{e^{-x} + 1}$ & $\sigma(x)(1-\sigma(x))$\\
+            \normalrule
+            Tanh            &               & $\tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$    & $1 - \tanh(x) ^ 2$\\
+            \normalrule
+            ReLU            &               & $\max(0, x)   $   & \\
+            \normalrule
+            Leaky ReLU      &               & $\max(0.01x, x)$  & \\
+            \normalrule
+            PReLU           &               & $\max(\alpha x, x)$ & \\
+            \normalrule
+            SiLU/Swish      &               & $x \sigmoid(x) = \frac{x}{e^{-x} + 1}$    & \\
+            \normalrule
+            Mish            &               & $x\tanh(\ln(1+e^{x}))$ & \\
+            \normalrule
+            ELU             &               & $\begin{cases}
+                \alpha(e^x - 1) & x \leqslant 0\\
+                x               & x > 0
+            \end{cases}$  &$ \begin{cases}
+                \alpha e^x & x \leqslant 0 \\
+                1          & x > 0
+            \end{cases}$\\
+            \normalrule
+            SELU            &               & \makecell{$\lambda \begin{cases}
+                \alpha(e^x - 1) & x < 0\\
+                x               & x \geqslant 0
+            \end{cases}$ \\
+            $\lambda = 1.0507, \alpha = 1.67326$}
+             & $\lambda \begin{cases}
+                 \alpha e^x & x < 0 \\
+                 1          & x \geqslant 0
+            \end{cases}$\\
+            \normalrule
+            Softplus        &               & $\ln(1 + e^x)$ & $\sigma(x) = \frac{1}{e^{-x} + 1}$\\
+			\bottomrule
+	    \end{tabular}
+	% }
+	\caption{Activation functions}
+	\label{tab:activation_functions}
+\end{table}
 
 \subsection{Loss functions}
+深度学习基本使用最大似然估计进行训练，因此代价函数就是\textbf{负的对数似然}(The negative log likelihood loss)，他与训练数据和模型分布间的
+交叉熵等价
+\[
+    J(\theta) = - \E_{\vx, \vy \sim P} \log Q(\vy|\vx)
+\]
+代价函数的具体形式依赖于$\log Q(\vy|\vy)$的具体形式
+
+\subsubsection{Autoencoder重构误差}
+\begin{align}
+    Q(\vy|\vx)  &= \N(\vy; f(\vx; \theta), \mI) \\
+    J(\theta)   &= -\E_{\vx, \vy \sim P} \log ( \frac{1}{\sqrt{2 \pi}} e ^{-\frac{(\vy - f(\vx; \theta))^2}{2}}) \\
+                &= -\E_{\vx, \vy \sim P} (-\frac{(\vy - f(\vx; \theta))^2}{2}) + constant \\
+                &= \frac{1}{2} \E_{\vx, \vy \sim P} (\vy - f(\vx; \theta))^2 + constant \\
+                &= \frac{1}{2} \E_{\vx, \vy \sim P} \|\vy - f(\vx; \theta)\|^2 + constant
+\end{align}
+
 
 
 \section{Batch Normalization}

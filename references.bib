@@ -155,3 +155,28 @@
    volume = {2020-May},
    year = {2020},
 }
+@article{DropOut2012,
+archivePrefix = {arXiv},
+arxivId = {1207.0580},
+author = {Geoffrey E. Hinton and Nitish Srivastava and Alex Krizhevsky and Ilya Sutskever and Ruslan R. Salakhutdinov},
+eprint = {1207.0580},
+title = {Improving neural networks by preventing co-adaptation of feature detectors},
+url = {https://arxiv.org/abs/1207.0580},
+year = {2012}
+}
+@article{Srivastava2014,
+abstract = {Deep neural nets with a large number of parameters are very powerful machine learning systems. However, over tting is a serious problem in such networks. Large networks are also slow to use, making it diffcult to deal with over tting by combining the predictions of many different large neural nets at test time. Dropout is a technique for addressing this problem. The key idea is to randomly drop units (along with their connections) from the neural network during training. This prevents units from co-adapting too much. During training, dropout samples from an exponential number of different \thinned" networks. At test time, it is easy to approximate the effect of averaging the predictions of all these thinned networks by simply using a single unthinned network that has smaller weights. This signi cantly reduces over tting and gives major improvements over other regularization methods. We show that dropout improves the performance of neural networks on supervised learning tasks in vision, speech recognition, document classi cation and computational biology, obtaining state-of-the-art results on many benchmark data sets.},
+author = {Srivastava, Nitish and Hinton, Geoffrey and Krizhevsky, Alex and Sutskever, Ilya and Salakhutdinov, Ruslan},
+journal = {Journal of Machine Learning Research},
+title = {{Dropout: a simple way to prevent neural networks from overfitting. Journal of Machine Learning Research}},
+volume = {15},
+year = {2014}
+}
+@inproceedings{Wan2013,
+   abstract = {We introduce DropConnect, a generalization of Dropout (Hinton et al., 2012), for regularizing large fully-connected layers within neural networks. When training with Dropout, a randomly selected subset of activations are set to zero within each layer. DropConnect instead sets a randomly selected subset of weights within the network to zero. Each unit thus receives input from a random subset of units in the previous layer. We derive a bound on the generalization performance of both Dropout and DropConnect. We then evaluate DropConnect on a range of datasets, comparing to Dropout, and show state-of-the-art results on several image recognition benchmarks by aggregating multiple DropConnect-trained models. Copyright 2013 by the author(s).},
+   author = {Li Wan and Matthew Zeiler and Sixin Zhang and Yann LeCun and Rob Fergus},
+   issue = {PART 3},
+   journal = {30th International Conference on Machine Learning, ICML 2013},
+   title = {Regularization of neural networks using DropConnect},
+   year = {2013},
+}
